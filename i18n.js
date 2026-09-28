@@ -100,7 +100,7 @@ var ja = {
 
 /* ============ en ============ */
 var en = {
-  app: { name:'Text Workbench - SOYOGI', short:'Text Workbench', tagline:'Choose the shape that reads best for you, then read one line at a time.' },
+  app: { name:'Text Workbench - SOYOGI', short:'Text Workbench', tagline:'Set the look that is easiest for you to read, then go one line at a time.' },
   nav: { home:'Home', mikurabe:'Compare', yomu:'Read', set:'Settings' },
   common: {
     ok:'OK', cancel:'Cancel', save:'Save', del:'Delete', back:'Back', close:'Close',
