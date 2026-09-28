@@ -1,0 +1,15 @@
+{
+  "name": "読む・書くの作業台(仮)",
+  "short_name": "読む・書くの作業台",
+  "description": "同じ文を書体・行間・背景で見比べて読み方プロフィールを保存。貼った文章の今読む1行だけを明るくして読み上げ。端末内のみ・オフライン・登録なし。",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f7f3",
+  "theme_color": "#2e9e6b",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
