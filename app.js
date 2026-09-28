@@ -9,7 +9,7 @@
      変えたら README の「シェルの変更点」に書く */
 (function(){
 
-var VER = '0.3.1';               // 🔴 更新のたびに上げる(build.gradle の versionName / sw.js の CACHE と一緒に)
+var VER = '0.3.2';               // 🔴 更新のたびに上げる(build.gradle の versionName / sw.js の CACHE と一緒に)
 var APP_KEY = 'yomu_kaku';        // バックアップの識別(別アプリのファイルを読まない)
 var LS = 'yomu.';
 var LS_PREF = LS + 'pref.v1';
@@ -64,7 +64,7 @@ var I18N_MAP = {
   'set-h-normal':'set.hNormal', 'set-h-backup':'set.hBackup',
   'lbl-fs':'set.fs', 'lbl-theme':'set.theme', 'lbl-bgm':'set.bgm', 'lbl-sound':'set.sound',
   'bk-hint':'set.bkHint', 'bk-export':'set.bkExport', 'bk-import':'set.bkImport',
-  'set-note':'set.note', 'link-privacy':'set.privacy', 'about-credit':'set.credit'
+  'set-note':'set.note', 'link-privacy':'set.privacy', 'about-credit':'set.credit', 'font-credit':'set.fontCredit'
 };
 function applyI18n(){
   for(var id in I18N_MAP){ var e = $(id); if(e) e.textContent = T(I18N_MAP[id]); }
@@ -293,20 +293,55 @@ function exportBackup(){
   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 3000);
   toast(T('set.exported'));
 }
+/* 置き換える前の確かめ(Play版の WebView もネイティブのダイアログで出す)。出せない環境では置き換えない */
+function askConfirm(msg){
+  try{ return typeof window.confirm === 'function' && window.confirm(msg) === true; }catch(_){ return false; }
+}
+/* このアプリの保存キー(yomu.)を全部 { キー: 生の文字列 } で控える(失敗したときに戻す用) */
+function snapshotOwn(){
+  var s = {};
+  for(var i = 0; i < localStorage.length; i++){ var k = localStorage.key(i); if(k && k.indexOf(LS) === 0) s[k] = localStorage.getItem(k); }
+  return s;
+}
+function removeOwnExcept(keep){
+  var ks = Object.keys(snapshotOwn());
+  for(var i = 0; i < ks.length; i++){ if(!keep || !Object.prototype.hasOwnProperty.call(keep, ks[i])) removeKey(ks[i]); }
+}
 function importBackup(e){
   var f = e.target.files && e.target.files[0];
   if(!f) return;
   var r = new FileReader();
   r.onload = function(){
+    /* 1. 形の確かめ(このアプリのファイルか)。違えば確かめを出さずに「よみこめませんでした」 */
+    var d = null;
     try{
-      var d = JSON.parse(r.result);
-      if(d.app !== APP_KEY) throw new Error('different app');
-      if(d.data && typeof d.data === 'object'){ for(var k in d.data){ saveJSON(LS + k, d.data[k]); } }
+      d = JSON.parse(r.result);
+      if(!d || d.app !== APP_KEY) throw new Error('different app');
+    }catch(err){ toast(T('set.importFail')); return; }
+    /* 2. 置き換える前に確かめる。やめたら何も変えない */
+    if(!askConfirm(T('set.importConfirm'))) return;
+    /* 3. 丸ごと入れ替え: ファイルに無い このアプリの保存キー(yomu.)は消してから、ファイルの中身を書く。
+          ほかのアプリのキーには触らない。途中で書けなかったら(容量など)元に戻す */
+    var before = null;
+    try{
+      before = snapshotOwn();
+      var data = (d.data && typeof d.data === 'object' && !Array.isArray(d.data)) ? d.data : {};
+      var keep = {}; keep[LS_PREF] = true;
+      for(var k in data){ if(Object.prototype.hasOwnProperty.call(data, k)) keep[LS + k] = true; }
+      removeOwnExcept(keep);
+      for(var k2 in data){ if(Object.prototype.hasOwnProperty.call(data, k2) && !saveJSON(LS + k2, data[k2])) throw new Error('save failed'); }
       pref = sanitizePref(d.pref);
-      savePref();
+      if(!saveJSON(LS_PREF, pref)) throw new Error('save failed');
       applyAll(true);
       toast(T('set.imported'));
-    }catch(err){ toast(T('set.importFail')); }
+    }catch(err){
+      if(before){
+        try{ removeOwnExcept(null); for(var b in before){ localStorage.setItem(b, before[b]); } }catch(_){}
+        pref = sanitizePref(loadJSON(LS_PREF));
+        try{ applyAll(false); }catch(_){}
+      }
+      toast(T('set.importFail'));
+    }
   };
   r.readAsText(f);
   e.target.value = '';

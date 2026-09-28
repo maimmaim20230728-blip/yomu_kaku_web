@@ -2,24 +2,28 @@
 /* 読み方プロフィール(共通ヘルパー。画面ではない=SCREENS.register しない)
    ・みくらべ(mikurabe)が保存し、よむ(yomu)が使う「文字の形」= { font, spacing, lh, bg, size } の番号の組
    ・保存先は api.setExtra('profile', prof)(pref.extra の中=バックアップにも入る)
-   ・フォントは同梱しない。端末に入っている書体の候補を font-family で並べるだけ
+   ・書体は 0番だけ同梱(BIZ UDPGothic・OFL・fonts/。@font-face は style.css の "Yomu BIZ UDPGothic")。
+     1番・2番は端末に入っている書体の候補を font-family で並べるだけ
+   ・🔴 番号(0/1/2)は保存済みの読み方プロフィールの値なので、並びを変えない
    ・左寄せ・両端そろえなし(text-align:start。justify/center にしない。RTL言語では書き出し側に寄る) */
 (function(){
 
-  /* 端末の書体候補(順に探す。無ければ最後の総称にたどり着く) */
+  /* 書体候補(順に探す。無ければ最後の総称にたどり着く) */
   var FONTS = [
-    '"BIZ UDPGothic","Yu Gothic","Hiragino Sans","Noto Sans JP",system-ui,sans-serif',                 /* ゴシック */
-    '"BIZ UDPMincho","Yu Mincho","Hiragino Mincho ProN","Noto Serif JP","Times New Roman",serif',      /* 明朝 */
-    '"Hiragino Maru Gothic ProN","Rounded Mplus 1c","Meiryo","Yu Gothic UI","Noto Sans JP",sans-serif' /* 丸ゴシック系 */
+    '"Yomu BIZ UDPGothic","BIZ UDPGothic","Yu Gothic","Hiragino Sans","Noto Sans JP",system-ui,sans-serif', /* 0: 同梱の BIZ UDPゴシック */
+    '"BIZ UDPMincho","Yu Mincho","Hiragino Mincho ProN","Noto Serif JP","Times New Roman",serif',          /* 1: 明朝(端末の書体) */
+    '"Hiragino Maru Gothic ProN","Rounded Mplus 1c","Meiryo","Yu Gothic UI","Noto Sans JP",sans-serif'     /* 2: まるい ゴシック(端末しだい。丸く出ない端末が多い) */
   ];
   var SPACINGS = ['0', '0.08em', '0.16em'];       /* 字間 3段階 */
   var LHS = ['1.6', '2.0', '2.4'];                /* 行間 3段階 */
-  /* 背景色: 白 / 生成り / 薄い灰 / 黒地(文字色と、薄く見せる行の色も組にする) */
+  /* 背景色: 白 / 生成り / 薄い灰 / 黒地(文字色と、薄く見せる行の色も組にする)。
+     薄く見せる行(今の行以外)は約 3:1(yomu-17・2026-09-29。前は 1.75〜2.74:1 で前後の文が読みにくかった)。
+     今の行との差は太字と枠(yomu.js の .ym-line.cur)で残す */
   var BGS = [
-    { bg:'#ffffff', ink:'#1a1a1a', dim:'#b9b9b9', line:'#dddddd' },
-    { bg:'#fbf6e9', ink:'#2a2620', dim:'#c2bcae', line:'#e6dfcf' },
-    { bg:'#ececec', ink:'#1a1a1a', dim:'#b0b0b0', line:'#d4d4d4' },
-    { bg:'#111111', ink:'#f0f0f0', dim:'#5a5a5a', line:'#333333' }
+    { bg:'#ffffff', ink:'#1a1a1a', dim:'#949494', line:'#dddddd' },
+    { bg:'#fbf6e9', ink:'#2a2620', dim:'#938c7c', line:'#e6dfcf' },
+    { bg:'#ececec', ink:'#1a1a1a', dim:'#878787', line:'#d4d4d4' },
+    { bg:'#111111', ink:'#f0f0f0', dim:'#7a7a7a', line:'#333333' }
   ];
   var SIZES = ['1em', '1.25em', '1.5em'];          /* 文字の大きさ 3段階(せっていの「もじの大きさ」に重ねて掛かる) */
 

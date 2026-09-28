@@ -38,9 +38,11 @@ var ja = {
     bkHint:'あたらしい スマホに うつるときは、「かきだす」で ファイルを ほぞんして、あたらしい スマホで「よみこむ」を おしてください。',
     bkExport:'かきだす', bkImport:'よみこむ',
     exported:'かきだしました ✓', imported:'よみこみました ✓', importFail:'よみこめませんでした',
+    importConfirm:'いまの ないようは、ファイルの ないように おきかわります。よみこみますか?',
     note:'書いたことは すべて この端末の中だけに ほぞんされます。どこにも 送られません。',
     privacy:'プライバシーポリシー',
-    credit:'アプリ開発：介護と支援の相談どころ そよぎ'
+    credit:'アプリ開発：介護と支援の相談どころ そよぎ',
+    fontCredit:'書体：BIZ UDPゴシック(Copyright 2022 The BIZ UDGothic Project Authors)。SIL Open Font License 1.1。ライセンスの全文は アプリの中の fonts/OFL.txt にあります。'
   },
   screen: {
     home: {
@@ -56,7 +58,7 @@ var ja = {
       title:'みくらべる',
       hint:'「この形で ほぞんする」を おすと、「よむ」の画面で この形に なります。',
       sample:['読みやすい形は、人によって違います。','書体や行間を変えて、自分に合うものを選べます。','選んだ形は、この端末の中だけに残ります。'],
-      font:'しょたい(書体)', fonts:['ゴシック','明朝','丸ゴシック'],
+      font:'しょたい(書体)', fonts:['BIZ UDPゴシック','明朝','まるい ゴシック(端末による)'],
       spacing:'じかん(字と字の あいだ)', spacings:['ふつう','すこし ひろい','ひろい'],
       lh:'ぎょうかん(行と行の あいだ)', lhs:['1.6','2.0','2.4'],
       bg:'はいけいの いろ', bgs:['しろ','きなり(クリームいろ)','うすい はいいろ','くろ'],
@@ -124,9 +126,11 @@ var en = {
     bkHint:'When you move to a new phone, tap "Export" to save a file, then tap "Import" on the new phone.',
     bkExport:'Export', bkImport:'Import',
     exported:'Exported ✓', imported:'Imported ✓', importFail:'Could not import',
+    importConfirm:'Your current entries will be replaced with the file\'s contents. Import it?',
     note:'Everything you write is stored only on this device. Nothing is sent anywhere.',
     privacy:'Privacy policy',
-    credit:'Developed by SOYOGI, a care and support consultation service'
+    credit:'Developed by SOYOGI, a care and support consultation service',
+    fontCredit:'Typeface: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. The full license is in fonts/OFL.txt inside the app.'
   },
   screen: {
     home: {
@@ -141,7 +145,7 @@ var en = {
       title:'Compare',
       hint:'Tap "Save this shape" and the Read screen will use this shape.',
       sample:['What is easy to read differs from person to person.','Change the typeface and spacing to find what suits you.','The shape you choose stays only on this device.'],
-      font:'Typeface', fonts:['Sans-serif','Serif','Rounded'],
+      font:'Typeface', fonts:['BIZ UDPGothic','Serif','Rounded (depends on device)'],
       spacing:'Letter spacing', spacings:['Normal','A little wide','Wide'],
       lh:'Line spacing', lhs:['1.6','2.0','2.4'],
       bg:'Background', bgs:['White','Cream','Light gray','Black'],
@@ -264,9 +268,11 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "Exportiert ✓",
     "imported": "Importiert ✓",
     "importFail": "Importieren war nicht möglich",
+    "importConfirm": "Ihre aktuellen Inhalte werden durch den Inhalt der Datei ersetzt. Möchten Sie importieren?",
     "note": "Alles, was Sie schreiben, wird nur auf diesem Gerät gespeichert. Nichts wird irgendwohin gesendet.",
     "privacy": "Datenschutzerklärung",
-    "credit": "Entwickelt von SOYOGI, einer Beratungsstelle für Pflege und Unterstützung"
+    "credit": "Entwickelt von SOYOGI, einer Beratungsstelle für Pflege und Unterstützung",
+    "fontCredit": "Schrift: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Den vollständigen Lizenztext finden Sie in der App unter fonts/OFL.txt."
   },
   "screen": {
     "home": {
@@ -287,9 +293,9 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "Schriftart",
       "fonts": [
-        "Serifenlos",
+        "BIZ UDPGothic",
         "Mit Serifen",
-        "Abgerundet"
+        "Abgerundet (je nach Gerät)"
       ],
       "spacing": "Zeichenabstand",
       "spacings": [
@@ -439,9 +445,11 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "Exporté ✓",
     "imported": "Importé ✓",
     "importFail": "Impossible d'importer",
+    "importConfirm": "Le contenu actuel sera remplacé par celui du fichier. Voulez-vous importer ?",
     "note": "Tout ce que vous écrivez est enregistré uniquement sur cet appareil. Rien n'est envoyé ailleurs.",
     "privacy": "Politique de confidentialité",
-    "credit": "Application développée par SOYOGI, service de conseil en soins et en accompagnement"
+    "credit": "Application développée par SOYOGI, service de conseil en soins et en accompagnement",
+    "fontCredit": "Police : BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Le texte complet de la licence se trouve dans l'application, dans fonts/OFL.txt."
   },
   "screen": {
     "home": {
@@ -462,9 +470,9 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "Police",
       "fonts": [
-        "Sans empattements",
+        "BIZ UDPGothic",
         "Avec empattements",
-        "Arrondie"
+        "Arrondie (selon l'appareil)"
       ],
       "spacing": "Espacement des lettres",
       "spacings": [
@@ -614,9 +622,11 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "Exportado ✓",
     "imported": "Importado ✓",
     "importFail": "No se pudo importar",
+    "importConfirm": "El contenido actual se sustituirá por el del archivo. ¿Importar?",
     "note": "Todo lo que se escribe se guarda solo en este dispositivo. No se envía a ningún lugar.",
     "privacy": "Política de privacidad",
-    "credit": "App desarrollada por SOYOGI, servicio de consulta sobre cuidados y apoyo"
+    "credit": "App desarrollada por SOYOGI, servicio de consulta sobre cuidados y apoyo",
+    "fontCredit": "Tipo de letra: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. El texto completo de la licencia está en fonts/OFL.txt, dentro de la app."
   },
   "screen": {
     "home": {
@@ -637,9 +647,9 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "Tipo de letra",
       "fonts": [
-        "Sin serifa",
+        "BIZ UDPGothic",
         "Con serifa",
-        "Redondeada"
+        "Redondeada (según el dispositivo)"
       ],
       "spacing": "Espacio entre letras",
       "spacings": [
@@ -789,9 +799,11 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "Esportato ✓",
     "imported": "Importato ✓",
     "importFail": "Non è stato possibile importare",
+    "importConfirm": "I contenuti attuali verranno sostituiti con quelli del file. Vuole importare?",
     "note": "Tutto ciò che scrive viene salvato solo su questo dispositivo. Non viene inviato da nessuna parte.",
     "privacy": "Informativa sulla privacy",
-    "credit": "App sviluppata da SOYOGI, servizio di consulenza per l'assistenza e il sostegno"
+    "credit": "App sviluppata da SOYOGI, servizio di consulenza per l'assistenza e il sostegno",
+    "fontCredit": "Carattere: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Il testo completo della licenza si trova nell'app, in fonts/OFL.txt."
   },
   "screen": {
     "home": {
@@ -812,9 +824,9 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "Carattere",
       "fonts": [
-        "Senza grazie",
+        "BIZ UDPGothic",
         "Con grazie",
-        "Arrotondato"
+        "Arrotondato (dipende dal dispositivo)"
       ],
       "spacing": "Spazio tra le lettere",
       "spacings": [
@@ -964,9 +976,11 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "Exportado ✓",
     "imported": "Importado ✓",
     "importFail": "Não foi possível importar",
+    "importConfirm": "O conteúdo atual será substituído pelo conteúdo do ficheiro. Importar?",
     "note": "Tudo o que se escreve fica guardado apenas neste dispositivo. Nada é enviado para fora dele.",
     "privacy": "Política de privacidade",
-    "credit": "Desenvolvido por SOYOGI, serviço de consulta sobre cuidados e apoio"
+    "credit": "Desenvolvido por SOYOGI, serviço de consulta sobre cuidados e apoio",
+    "fontCredit": "Tipo de letra: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. O texto completo da licença está em fonts/OFL.txt, dentro da aplicação."
   },
   "screen": {
     "home": {
@@ -987,9 +1001,9 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "Tipo de letra",
       "fonts": [
-        "Sem serifa",
+        "BIZ UDPGothic",
         "Com serifa",
-        "Arredondado"
+        "Arredondado (depende do dispositivo)"
       ],
       "spacing": "Espaço entre letras",
       "spacings": [
@@ -1139,9 +1153,11 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "Geëxporteerd ✓",
     "imported": "Geïmporteerd ✓",
     "importFail": "Importeren is niet gelukt",
+    "importConfirm": "Wat u nu hebt, wordt vervangen door de inhoud van het bestand. Wilt u importeren?",
     "note": "Alles wat u schrijft, wordt alleen op dit apparaat bewaard. Er wordt niets verstuurd.",
     "privacy": "Privacybeleid",
-    "credit": "App-ontwikkeling: SOYOGI, adviespunt voor zorg en ondersteuning"
+    "credit": "App-ontwikkeling: SOYOGI, adviespunt voor zorg en ondersteuning",
+    "fontCredit": "Lettertype: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. De volledige licentietekst staat in de app in fonts/OFL.txt."
   },
   "screen": {
     "home": {
@@ -1162,9 +1178,9 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "Lettertype",
       "fonts": [
-        "Schreefloos",
+        "BIZ UDPGothic",
         "Schreef",
-        "Afgerond"
+        "Afgerond (afhankelijk van het apparaat)"
       ],
       "spacing": "Letterafstand",
       "spacings": [
@@ -1314,9 +1330,11 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "Exporterat ✓",
     "imported": "Importerat ✓",
     "importFail": "Det gick inte att importera",
+    "importConfirm": "Det du har nu ersätts med innehållet i filen. Vill du importera?",
     "note": "Allt du skriver sparas bara på den här enheten. Inget skickas någonstans.",
     "privacy": "Integritetspolicy",
-    "credit": "Appen är utvecklad av SOYOGI, en rådgivning om omsorg och stöd"
+    "credit": "Appen är utvecklad av SOYOGI, en rådgivning om omsorg och stöd",
+    "fontCredit": "Typsnitt: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Hela licenstexten finns i appen i fonts/OFL.txt."
   },
   "screen": {
     "home": {
@@ -1337,9 +1355,9 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "Typsnitt",
       "fonts": [
-        "Sans serif",
+        "BIZ UDPGothic",
         "Serif",
-        "Rundad"
+        "Rundad (beror på enheten)"
       ],
       "spacing": "Bokstavsavstånd",
       "spacings": [
@@ -1489,9 +1507,11 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "내보냈어요 ✓",
     "imported": "가져왔어요 ✓",
     "importFail": "가져오지 못했어요",
+    "importConfirm": "지금 내용이 파일의 내용으로 바뀌어요. 가져올까요?",
     "note": "쓴 내용은 모두 이 기기 안에만 저장돼요. 어디에도 보내지 않아요.",
     "privacy": "개인정보 처리방침",
-    "credit": "앱 개발: 돌봄과 지원 상담소 SOYOGI"
+    "credit": "앱 개발: 돌봄과 지원 상담소 SOYOGI",
+    "fontCredit": "글꼴: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. 라이선스 전문은 앱 안의 fonts/OFL.txt에 있어요."
   },
   "screen": {
     "home": {
@@ -1512,9 +1532,9 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "글꼴",
       "fonts": [
-        "고딕",
+        "BIZ UDPGothic",
         "명조",
-        "둥근 고딕"
+        "둥근 고딕(기기에 따라 다름)"
       ],
       "spacing": "자간(글자와 글자 사이)",
       "spacings": [
@@ -1664,9 +1684,11 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "已导出 ✓",
     "imported": "已导入 ✓",
     "importFail": "无法导入",
+    "importConfirm": "当前内容将被替换为文件中的内容。要导入吗？",
     "note": "写下的内容全部只保存在这台设备里，不会发送到任何地方。",
     "privacy": "隐私政策",
-    "credit": "应用开发：护理与支援咨询处 SOYOGI"
+    "credit": "应用开发：护理与支援咨询处 SOYOGI",
+    "fontCredit": "字体：BIZ UDPGothic（Copyright 2022 The BIZ UDGothic Project Authors），SIL Open Font License 1.1。许可证全文见应用内的 fonts/OFL.txt。"
   },
   "screen": {
     "home": {
@@ -1687,9 +1709,9 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "字体",
       "fonts": [
-        "黑体",
+        "BIZ UDPGothic",
         "宋体",
-        "圆体"
+        "圆体（因设备而异）"
       ],
       "spacing": "字间距（字与字之间）",
       "spacings": [
@@ -1839,9 +1861,11 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "exported": "تم التصدير ✓",
     "imported": "تم الاستيراد ✓",
     "importFail": "تعذّر الاستيراد",
+    "importConfirm": "سيُستبدل المحتوى الحالي بمحتوى الملف. هل تريد الاستيراد؟",
     "note": "كل ما تكتبه يُحفظ على هذا الجهاز فقط. لا يُرسل شيء إلى أي مكان.",
     "privacy": "سياسة الخصوصية",
-    "credit": "تطوير التطبيق: SOYOGI، مكان للاستشارة في الرعاية والدعم"
+    "credit": "تطوير التطبيق: SOYOGI، مكان للاستشارة في الرعاية والدعم",
+    "fontCredit": "الخط: BIZ UDPGothic، Copyright 2022 The BIZ UDGothic Project Authors، الترخيص: SIL Open Font License 1.1. النص الكامل للترخيص موجود داخل التطبيق في fonts/OFL.txt."
   },
   "screen": {
     "home": {
@@ -1862,9 +1886,9 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
       ],
       "font": "نوع الخط",
       "fonts": [
-        "بلا زوائد",
+        "BIZ UDPGothic",
         "بزوائد",
-        "مستدير"
+        "مستدير (حسب الجهاز)"
       ],
       "spacing": "المسافة بين الحروف",
       "spacings": [

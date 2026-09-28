@@ -24,7 +24,7 @@
        #main の下の余白(24px・style.css)の分だけ下げて、ボタンの下から行がのぞかないようにする */
     '#scr-yomu .ym-ctrl-bar{ position:sticky; bottom:-24px; z-index:4; background:var(--bg); padding-block:6px; }' +
     '#scr-yomu .ym-ctrl-bar .btn-row{ margin:4px 0; }' +
-    '#scr-yomu .ym-band{ position:sticky; top:0; z-index:5; background:var(--brand); color:var(--on-brand); border-radius:14px;' +
+    '#scr-yomu .ym-band{ position:sticky; top:0; z-index:5; background:var(--brand-ink); color:var(--on-brand); border-radius:14px;' +
     ' padding:12px 14px; margin:0 0 12px; text-align:center; }' +
     '#scr-yomu .ym-band .ym-band-h{ font-size:1.3em; font-weight:800; margin:0 0 4px; }' +
     '#scr-yomu .ym-band .btn{ margin-top:8px; background:#fff; color:#1a1a1a; border-color:#fff; }' +

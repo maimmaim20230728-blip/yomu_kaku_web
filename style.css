@@ -13,12 +13,33 @@
   --alert:#d43f3f;
   --ok:#2e9e6b;
   --on-brand:#fff;   /* 緑(--brand)を塗った部品の上の文字色 */
+  /* 文字用の緑: 白い字を載せる緑(ヘッダーの地・主ボタン・chip.on・ひとやすみの帯)と、緑を文字色に使う所(下ナビの選択中・リンク)。
+     明るい3テーマは濃い緑で 4.5:1 以上にする。枠・線・飾りは --brand のまま */
+  --brand-ink:#237a52;
 }
-body[data-theme="aqua"]{ --brand:#2b8fb5; --bg:#eff7fa; --line:#cfe5ee; }
-body[data-theme="white"]{ --brand:#3d8a63; --bg:#ffffff; --card:#f7f9f8; --line:#e2e6e4; }
+body[data-theme="aqua"]{ --brand:#2b8fb5; --bg:#eff7fa; --line:#cfe5ee; --brand-ink:#1f6f8f; }
+body[data-theme="white"]{ --brand:#3d8a63; --bg:#ffffff; --card:#f7f9f8; --line:#e2e6e4; --brand-ink:#237a52; }
 body[data-theme="dark"]{
   --brand:#43c08a; --bg:#191d1b; --card:#242a27; --ink:#f2f2f2; --line:#3a423e; --sub:#b5bdb8;
   --on-brand:#10231a;   /* 明るい緑の上は白だと 2.3:1 で読みにくい → 暗い文字(7.2:1) */
+  --brand-ink:var(--brand);   /* くろ は明るい緑のまま(上の字は --on-brand の濃い色・字としての緑は暗い地の上で読める) */
+}
+
+/* 同梱の書体(yomu-16): BIZ UDPGothic(SIL Open Font License 1.1・fonts/OFL.txt)。
+   使うのは みくらべ の「BIZ UDPゴシック」と、その形で読む よむ の行だけ(screens/profile.js の FONTS[0])。
+   端末に同じ名前の書体があっても同梱の方で描くよう、名前を分けている。使う画面を開いたときに初めて読み込む。
+   形式は WOFF(zlib。元の TTF から表の中身は変えずに包み直しただけ)。
+   sw.js は先に取り込まない(Web版の初回に約6MBを読ませない)。一度 みくらべ/よむ を開けば SW のキャッシュに入り、以後はオフラインでも出る。
+   まだキャッシュに無いまま通信が切れているときは、次の候補(端末の書体)で読める */
+@font-face{
+  font-family:"Yomu BIZ UDPGothic";
+  src:url("fonts/BIZUDPGothic-Regular.woff") format("woff");
+  font-weight:400; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:"Yomu BIZ UDPGothic";
+  src:url("fonts/BIZUDPGothic-Bold.woff") format("woff");
+  font-weight:700; font-style:normal; font-display:swap;
 }
 
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -38,7 +59,7 @@ body.fs2{ font-size:25px; }
 
 /* ======== ヘッダー(chromeは固定19px=fs2でも肥大させない) ======== */
 header#hd{
-  background:var(--brand); color:var(--on-brand);
+  background:var(--brand-ink); color:var(--on-brand);
   padding:calc(12px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left));
   font-weight:700; font-size:19px;
   display:flex; align-items:center; justify-content:space-between; gap:14px;
@@ -86,7 +107,7 @@ header#hd{
 }
 .big-btn .ico{ font-size:1.9em; line-height:1; flex:none; width:1.5em; text-align:center; }
 .big-btn .lbl{ font-size:1.2em; font-weight:700; }
-.big-btn.primary{ background:var(--brand); color:var(--on-brand); }
+.big-btn.primary{ border-color:var(--brand-ink); background:var(--brand-ink); color:var(--on-brand); }
 .big-btn.alert{ border-color:var(--alert); }
 .big-btn.huge{ min-height:40vh; min-height:40dvh; justify-content:center; text-align:center; font-size:1.3em; }
 .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
@@ -104,7 +125,7 @@ header#hd{
   border:2px solid var(--line); background:var(--card); color:var(--ink);
   border-radius:14px; font-family:inherit; font-size:1em; font-weight:700;
 }
-.btn.primary{ border-color:var(--brand); background:var(--brand); color:var(--on-brand); }
+.btn.primary{ border-color:var(--brand-ink); background:var(--brand-ink); color:var(--on-brand); }
 .btn.danger{ border-color:#cc3b30; color:#cc3b30; }
 body[data-theme="dark"] .btn.danger{ border-color:#ef9a9a; color:#ef9a9a; }
 .btn.wide{ width:100%; }
@@ -131,7 +152,7 @@ body[data-theme="dark"] .btn.danger{ border-color:#ef9a9a; color:#ef9a9a; }
   border:2px solid var(--line); background:var(--card); color:var(--ink);
   font-family:inherit; font-size:.95em; font-weight:700;
 }
-.chip.on{ border-color:var(--brand); background:var(--brand); color:var(--on-brand); }
+.chip.on{ border-color:var(--brand-ink); background:var(--brand-ink); color:var(--on-brand); }
 .empty{ color:var(--sub); text-align:center; padding:20px 8px; }
 .photo-thumb{ width:64px; height:64px; object-fit:cover; border-radius:10px; background:var(--bg); flex:none; }
 .photo-big{ width:100%; max-width:min(90vw,420px); aspect-ratio:1/1; object-fit:contain; border-radius:16px; background:var(--card); border:2px solid var(--line); display:block; margin:0 auto; }
@@ -149,7 +170,7 @@ body[data-theme="dark"] .btn.danger{ border-color:#ef9a9a; color:#ef9a9a; }
   position:fixed; min-height:64px; z-index:301;
   bottom:calc(16px + env(safe-area-inset-bottom));
   left:max(16px, env(safe-area-inset-left)); right:max(16px, env(safe-area-inset-right));
-  background:var(--brand); color:var(--on-brand); border:none; border-radius:12px;
+  background:var(--brand-ink); color:var(--on-brand); border:none; border-radius:12px;
   font-size:1.2em; font-weight:700; font-family:inherit;
 }
 .show-head{ font-size:1.3em; font-weight:800; border:3px solid var(--brand); border-radius:12px; padding:12px; text-align:center; }
@@ -159,7 +180,7 @@ body[data-theme="dark"] .btn.danger{ border-color:#ef9a9a; color:#ef9a9a; }
 .step-text{ font-size:2em; font-weight:800; line-height:1.4; text-align:center; margin:12vh 0 24px; overflow-wrap:anywhere; }
 .call-btn{
   display:block; margin-top:10px; min-height:64px; line-height:64px;
-  background:#2e9e6b; color:#fff; text-align:center;
+  background:var(--brand-ink); color:var(--on-brand); text-align:center;
   font-size:1.3em; font-weight:800; border-radius:12px; text-decoration:none;
 }
 
@@ -178,7 +199,7 @@ select{ min-height:48px; font-size:1em; font-family:inherit; }
 .bk-row .set-btn{ flex:1; }
 input[type="file"].hidden{ display:none; }
 .credit{ color:var(--sub); margin-top:20px; text-align:center; }
-.credit a{ color:var(--brand); text-decoration:underline; display:inline-block; padding:8px 4px; }
+.credit a{ color:var(--brand-ink); text-decoration:underline; display:inline-block; padding:8px 4px; }
 
 /* ======== ナビ(下固定・最大6) ======== */
 #navbar{
@@ -192,7 +213,7 @@ input[type="file"].hidden{ display:none; }
   font-size:clamp(12px, 3.6vw, 16px); line-height:1.25; word-break:keep-all; font-weight:700; font-family:inherit; color:var(--sub);
   border-top:4px solid transparent; padding:4px 2px;
 }
-.nav-btn.active{ color:var(--brand); border-top-color:var(--brand); }
+.nav-btn.active{ color:var(--brand-ink); border-top-color:var(--brand); }
 .nav-btn.hidden{ display:none; }
 
 /* tap.js の押下フィードバック */
