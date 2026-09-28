@@ -18,7 +18,7 @@
         wrap.appendChild(api.el('span', 'lbl', api.T(labelKey)));
         var sub = api.el('span', 'hint', api.T(subKey));
         sub.style.display = 'block';
-        if(primary) sub.style.color = '#fff';
+        if(primary) sub.style.color = 'var(--on-brand)';   /* 緑の上の文字色(くろ テーマでは暗い色=style.css) */
         wrap.appendChild(sub);
         b.appendChild(wrap);
         api.Tap.bind(b, function(){ api.go(target); });

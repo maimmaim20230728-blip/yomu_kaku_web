@@ -46,7 +46,7 @@ var ja = {
     home: {
       title:'読み書きの作業台',
       mikurabe:'みくらべる',
-      mikurabeSub:'書体・字間・行間・背景・大きさを えらんで、読み方プロフィールに ほぞん',
+      mikurabeSub:'もじの 形・あいだ・いろ・大きさを えらんで、読み方プロフィールに ほぞん',
       yomu:'よむ',
       yomuSub:'はりつけた 文章を、1行ずつ 明るくして よむ',
       note:'はりつけた文も、えらんだ形も、この端末の中だけに のこります。どこにも 送られません。'
@@ -54,14 +54,15 @@ var ja = {
     /* 見比べ=同じ見本文を書体・字間・行間・背景色・大きさで切り替えて見比べ、読み方プロフィールとして保存 */
     mikurabe: {
       title:'みくらべる',
-      hint:'おなじ文を、いろいろな形で 見くらべます。えらんだ形は「よむ」の画面で 使います。',
+      hint:'「この形で ほぞんする」を おすと、「よむ」の画面で この形に なります。',
       sample:['読みやすい形は、人によって違います。','書体や行間を変えて、自分に合うものを選べます。','選んだ形は、この端末の中だけに残ります。'],
       font:'しょたい(書体)', fonts:['ゴシック','明朝','丸ゴシック'],
       spacing:'じかん(字と字の あいだ)', spacings:['ふつう','すこし ひろい','ひろい'],
       lh:'ぎょうかん(行と行の あいだ)', lhs:['1.6','2.0','2.4'],
-      bg:'はいけいの いろ', bgs:['しろ','きなり','うすい はいいろ','くろ'],
+      bg:'はいけいの いろ', bgs:['しろ','きなり(クリームいろ)','うすい はいいろ','くろ'],
       size:'もじの大きさ', sizes:['ふつう','大きい','とても大きい'],
       save:'この形で ほぞんする',
+      unsaved:'まだ ほぞんしていません',
       reset:'はじめの形に もどす',
       saved:'読み方プロフィールを ほぞんしました ✓',
       resetDone:'はじめの形に もどしました',
@@ -79,6 +80,8 @@ var ja = {
       prev:'まえ', next:'つぎ',
       speak:'よみあげ', stop:'とめる',
       noSpeak:'この端末では 読み上げできません',
+      speakFail:'よみあげ できませんでした',
+      cloudNote:'☁ は ネットの 声です。よむ文が 声の会社に 送られる ことが あります。',
       lineOf:'{a} 行目 / ぜんぶで {b} 行',
       tapLineHint:'行を タップすると、そこから よめます。',
       breakLabel:'ひとやすみの めやす',
@@ -136,7 +139,7 @@ var en = {
     },
     mikurabe: {
       title:'Compare',
-      hint:'Look at the same text in different shapes. The shape you choose is used on the Read screen.',
+      hint:'Tap "Save this shape" and the Read screen will use this shape.',
       sample:['What is easy to read differs from person to person.','Change the typeface and spacing to find what suits you.','The shape you choose stays only on this device.'],
       font:'Typeface', fonts:['Sans-serif','Serif','Rounded'],
       spacing:'Letter spacing', spacings:['Normal','A little wide','Wide'],
@@ -144,6 +147,7 @@ var en = {
       bg:'Background', bgs:['White','Cream','Light gray','Black'],
       size:'Text size', sizes:['Normal','Large','Very large'],
       save:'Save this shape',
+      unsaved:'Not saved yet',
       reset:'Back to the first shape',
       saved:'Reading profile saved ✓',
       resetDone:'Back to the first shape',
@@ -160,6 +164,8 @@ var en = {
       prev:'Previous', next:'Next',
       speak:'Read aloud', stop:'Stop',
       noSpeak:'Reading aloud is not available on this device',
+      speakFail:'Could not read aloud',
+      cloudNote:'☁ means an online voice. The text being read may be sent to the company that provides the voice.',
       lineOf:'Line {a} of {b}',
       tapLineHint:'Tap a line to read from there.',
       breakLabel:'Break reminder',
@@ -273,7 +279,7 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "Vergleichen",
-      "hint": "Hier sehen Sie denselben Text in verschiedenen Darstellungen. Die gewählte Darstellung wird auf dem Bildschirm „Lesen“ verwendet.",
+      "hint": "Wenn Sie auf „Diese Darstellung speichern“ tippen, wird diese Darstellung auf dem Bildschirm „Lesen“ verwendet.",
       "sample": [
         "Was gut lesbar ist, ist von Mensch zu Mensch verschieden.",
         "Sie können Schriftart und Zeilenabstand ändern und wählen, was zu Ihnen passt.",
@@ -311,6 +317,7 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "Sehr groß"
       ],
       "save": "Diese Darstellung speichern",
+      "unsaved": "Noch nicht gespeichert",
       "reset": "Zurücksetzen",
       "saved": "Leseprofil gespeichert ✓",
       "resetDone": "Auf die erste Darstellung zurückgesetzt",
@@ -329,6 +336,8 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "Vorlesen",
       "stop": "Stopp",
       "noSpeak": "Vorlesen ist auf diesem Gerät nicht möglich",
+      "speakFail": "Vorlesen war nicht möglich",
+      "cloudNote": "☁ bedeutet eine Online-Stimme. Der vorgelesene Text kann an den Anbieter der Stimme gesendet werden.",
       "lineOf": "Zeile {a} von {b}",
       "tapLineHint": "Tippen Sie auf eine Zeile, um ab dort zu lesen.",
       "breakLabel": "Pausen-Erinnerung",
@@ -445,7 +454,7 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "Comparer",
-      "hint": "Regardez le même texte avec différents affichages. L'affichage choisi sera utilisé sur l'écran \"Lire\".",
+      "hint": "Touchez \"Enregistrer cet affichage\" pour utiliser cet affichage sur l'écran \"Lire\".",
       "sample": [
         "Ce qui est facile à lire change d'une personne à l'autre.",
         "Vous pouvez changer la police et l'interligne pour choisir ce qui vous convient.",
@@ -483,6 +492,7 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "Très grande"
       ],
       "save": "Enregistrer cet affichage",
+      "unsaved": "Pas encore enregistré",
       "reset": "Revenir à l'affichage de départ",
       "saved": "Profil de lecture enregistré ✓",
       "resetDone": "Affichage de départ rétabli",
@@ -501,6 +511,8 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "Lire à voix haute",
       "stop": "Arrêter",
       "noSpeak": "La lecture à voix haute n'est pas disponible sur cet appareil",
+      "speakFail": "Impossible de lire à voix haute",
+      "cloudNote": "☁ indique une voix en ligne. Le texte lu peut être envoyé à l'entreprise qui fournit la voix.",
       "lineOf": "Ligne {a} sur {b}",
       "tapLineHint": "Touchez une ligne pour lire à partir de là.",
       "breakLabel": "Rappel de pause",
@@ -617,7 +629,7 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "Comparar",
-      "hint": "Ver el mismo texto en distintas formas. La forma elegida se usa en la pantalla \"Leer\".",
+      "hint": "Toque \"Guardar esta forma\" y la pantalla \"Leer\" usará esta forma.",
       "sample": [
         "Lo que resulta fácil de leer cambia según la persona.",
         "Se puede cambiar el tipo de letra y el espacio entre líneas para elegir lo más cómodo.",
@@ -655,6 +667,7 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "Muy grande"
       ],
       "save": "Guardar esta forma",
+      "unsaved": "Todavía no se ha guardado",
       "reset": "Volver a la forma inicial",
       "saved": "Perfil de lectura guardado ✓",
       "resetDone": "Forma inicial restablecida",
@@ -673,6 +686,8 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "Leer en voz alta",
       "stop": "Detener",
       "noSpeak": "La lectura en voz alta no está disponible en este dispositivo",
+      "speakFail": "No se pudo leer en voz alta",
+      "cloudNote": "☁ indica una voz en línea. El texto que se lee puede enviarse a la empresa que ofrece la voz.",
       "lineOf": "Línea {a} de {b}",
       "tapLineHint": "Al tocar una línea, la lectura empieza desde ahí.",
       "breakLabel": "Aviso de descanso",
@@ -789,7 +804,7 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "Confronta",
-      "hint": "Guardi lo stesso testo in forme diverse. La forma che sceglie viene usata nella schermata «Leggi».",
+      "hint": "Tocchi «Salva questa forma» e la schermata «Leggi» userà questa forma.",
       "sample": [
         "Ciò che è facile da leggere cambia da persona a persona.",
         "Cambiando carattere e interlinea, può scegliere ciò che fa per Lei.",
@@ -827,6 +842,7 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "Molto grande"
       ],
       "save": "Salva questa forma",
+      "unsaved": "Non ancora salvato",
       "reset": "Torna alla forma iniziale",
       "saved": "Profilo di lettura salvato ✓",
       "resetDone": "Forma iniziale ripristinata",
@@ -845,6 +861,8 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "Leggi ad alta voce",
       "stop": "Ferma",
       "noSpeak": "La lettura ad alta voce non è disponibile su questo dispositivo",
+      "speakFail": "Non è stato possibile leggere ad alta voce",
+      "cloudNote": "☁ indica una voce online. Il testo letto può essere inviato all'azienda che fornisce la voce.",
       "lineOf": "Riga {a} di {b}",
       "tapLineHint": "Tocchi una riga per leggere da lì.",
       "breakLabel": "Promemoria per la pausa",
@@ -961,7 +979,7 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "Comparar",
-      "hint": "Ver o mesmo texto em vários formatos. O formato escolhido é usado em “Ler”.",
+      "hint": "Toque em “Guardar este formato” para usar este formato em “Ler”.",
       "sample": [
         "O que é fácil de ler muda de pessoa para pessoa.",
         "É possível mudar o tipo de letra e o espaço entre linhas e escolher o que serve melhor.",
@@ -999,6 +1017,7 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "Muito grande"
       ],
       "save": "Guardar este formato",
+      "unsaved": "Ainda não guardado",
       "reset": "Voltar ao formato inicial",
       "saved": "Perfil de leitura guardado ✓",
       "resetDone": "Formato inicial restaurado",
@@ -1017,6 +1036,8 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "Ler em voz alta",
       "stop": "Parar",
       "noSpeak": "A leitura em voz alta não está disponível neste dispositivo",
+      "speakFail": "Não foi possível ler em voz alta",
+      "cloudNote": "☁ indica uma voz online. O texto lido pode ser enviado à empresa que fornece a voz.",
       "lineOf": "Linha {a} de {b}",
       "tapLineHint": "Ao tocar numa linha, é possível ler a partir dela.",
       "breakLabel": "Lembrete de pausa",
@@ -1133,7 +1154,7 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "Vergelijken",
-      "hint": "Bekijk dezelfde tekst in verschillende weergaven. De weergave die u kiest, wordt gebruikt bij Lezen.",
+      "hint": "Tik op \"Deze weergave opslaan\", dan wordt deze weergave gebruikt bij Lezen.",
       "sample": [
         "Wat prettig leest, verschilt van persoon tot persoon.",
         "U kunt het lettertype en de regelafstand veranderen, en kiezen wat bij u past.",
@@ -1171,6 +1192,7 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "Heel groot"
       ],
       "save": "Deze weergave opslaan",
+      "unsaved": "Nog niet opgeslagen",
       "reset": "Terug naar de beginweergave",
       "saved": "Leesprofiel opgeslagen ✓",
       "resetDone": "Teruggezet naar de beginweergave",
@@ -1189,6 +1211,8 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "Voorlezen",
       "stop": "Stoppen",
       "noSpeak": "Voorlezen kan niet op dit apparaat",
+      "speakFail": "Voorlezen is niet gelukt",
+      "cloudNote": "☁ betekent een onlinestem. De tekst die wordt voorgelezen, kan worden gestuurd naar het bedrijf dat die stem levert.",
       "lineOf": "Regel {a} van {b}",
       "tapLineHint": "Tik op een regel om vanaf daar te lezen.",
       "breakLabel": "Pauzeherinnering",
@@ -1305,7 +1329,7 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "Jämför",
-      "hint": "Jämför samma text i olika utseenden. Det utseende du väljer används på skärmen ”Läs”.",
+      "hint": "Tryck på ”Spara det här utseendet” så används det här utseendet på skärmen ”Läs”.",
       "sample": [
         "Vad som är lätt att läsa skiljer sig från person till person.",
         "Du kan ändra typsnitt och radavstånd och välja det som passar dig.",
@@ -1343,6 +1367,7 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "Mycket stor"
       ],
       "save": "Spara det här utseendet",
+      "unsaved": "Inte sparat än",
       "reset": "Återställ",
       "saved": "Läsprofilen är sparad ✓",
       "resetDone": "Utseendet är återställt",
@@ -1361,6 +1386,8 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "Läs upp",
       "stop": "Stoppa",
       "noSpeak": "Uppläsning fungerar inte på den här enheten",
+      "speakFail": "Det gick inte att läsa upp",
+      "cloudNote": "☁ betyder en röst via internet. Texten som läses upp kan skickas till företaget som står för rösten.",
       "lineOf": "Rad {a} av {b}",
       "tapLineHint": "Tryck på en rad för att läsa därifrån.",
       "breakLabel": "Påminnelse om paus",
@@ -1477,7 +1504,7 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "비교하기",
-      "hint": "같은 글을 여러 가지 모양으로 비교해 봐요. 고른 모양은 '읽기' 화면에서 써요.",
+      "hint": "'이 모양으로 저장'을 누르면 '읽기' 화면에서 이 모양으로 보여요.",
       "sample": [
         "읽기 편한 모양은 사람마다 달라요.",
         "글꼴이나 행간을 바꿔서 나에게 맞는 것을 고를 수 있어요.",
@@ -1515,6 +1542,7 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "아주 크게"
       ],
       "save": "이 모양으로 저장",
+      "unsaved": "아직 저장하지 않았어요",
       "reset": "처음 모양으로 되돌리기",
       "saved": "읽기 프로필을 저장했어요 ✓",
       "resetDone": "처음 모양으로 되돌렸어요",
@@ -1533,6 +1561,8 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "읽어 주기",
       "stop": "멈추기",
       "noSpeak": "이 기기에서는 읽어 주기를 쓸 수 없어요",
+      "speakFail": "읽어 주기를 하지 못했어요",
+      "cloudNote": "☁는 인터넷 음성이에요. 읽는 글이 음성을 제공하는 회사로 보내질 수 있어요.",
       "lineOf": "{a}번째 줄 / 전체 {b}줄",
       "tapLineHint": "줄을 누르면 거기서부터 읽을 수 있어요.",
       "breakLabel": "쉬는 시간 알림",
@@ -1649,7 +1679,7 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "对比",
-      "hint": "用不同的样式查看同一段文字。选好的样式会在“阅读”画面中使用。",
+      "hint": "点“保存这个样式”后，“阅读”画面就会使用这个样式。",
       "sample": [
         "什么样的文字容易读，因人而异。",
         "可以改变字体和行间距，选出适合自己的样式。",
@@ -1687,6 +1717,7 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "特大"
       ],
       "save": "保存这个样式",
+      "unsaved": "还没有保存",
       "reset": "恢复初始样式",
       "saved": "阅读偏好已保存 ✓",
       "resetDone": "已恢复初始样式",
@@ -1705,6 +1736,8 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "朗读",
       "stop": "停止",
       "noSpeak": "这台设备无法朗读",
+      "speakFail": "无法朗读",
+      "cloudNote": "☁ 表示联网语音。朗读的文字可能会发送给提供语音的公司。",
       "lineOf": "第 {a} 行 / 共 {b} 行",
       "tapLineHint": "点按某一行，就能从那里开始读。",
       "breakLabel": "休息提醒",
@@ -1821,7 +1854,7 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
     },
     "mikurabe": {
       "title": "المقارنة",
-      "hint": "انظر إلى النص نفسه بأشكال مختلفة. الشكل الذي تختاره يُستخدم في شاشة «القراءة».",
+      "hint": "اضغط «حفظ هذا الشكل» ليُستخدم هذا الشكل في شاشة «القراءة».",
       "sample": [
         "الشكل السهل في القراءة يختلف من شخص إلى آخر.",
         "يمكنك تغيير الخط والمسافات لتختار ما يناسبك.",
@@ -1859,6 +1892,7 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
         "كبير جدًا"
       ],
       "save": "حفظ هذا الشكل",
+      "unsaved": "لم يُحفظ بعد",
       "reset": "العودة إلى الشكل الأول",
       "saved": "تم حفظ ملف القراءة الشخصي ✓",
       "resetDone": "تمت العودة إلى الشكل الأول",
@@ -1877,6 +1911,8 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "speak": "قراءة صوتية",
       "stop": "إيقاف",
       "noSpeak": "القراءة الصوتية غير متاحة على هذا الجهاز",
+      "speakFail": "تعذّرت القراءة الصوتية",
+      "cloudNote": "☁ تعني صوتًا عبر الإنترنت. قد يُرسَل النص الذي تتم قراءته إلى الشركة التي توفّر الصوت.",
       "lineOf": "السطر {a} من {b}",
       "tapLineHint": "اضغط على سطر لتبدأ القراءة منه.",
       "breakLabel": "تذكير بالاستراحة",

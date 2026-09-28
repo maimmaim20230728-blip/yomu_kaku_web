@@ -4,12 +4,12 @@
    ・click禁止: 操作は全て Tap.bind(tap.js)。select / file input だけはネイティブイベント
    ・画面は screens/<id>.js が window.SCREENS.register('<id>', { render(container, api) }) で登録する
      (会話補助ノートと同じ取り決め。画面同士・シェルの内部状態は共有しない)
-   ・api = { T, el, pref, toast, go, Tap, Photo, load, save, remove, getExtra, setExtra, speak, stopSpeak, vibrate, lang, rtl, ver, appKey }
+   ・api = { T, el, pref, toast, go, Tap, Photo, load, save, remove, getExtra, setExtra, speak, stopSpeak, canSpeak, voiceInfo, onVoicesChanged, vibrate, lang, rtl, ver, appKey }
    ・🔴 BUILDER: アプリ固有の処理は screens/*.js に書く。このファイルは共通部分なので最小限の変更にとどめ、
      変えたら README の「シェルの変更点」に書く */
 (function(){
 
-var VER = '0.3.0';               // 🔴 更新のたびに上げる(build.gradle の versionName / sw.js の CACHE と一緒に)
+var VER = '0.3.1';               // 🔴 更新のたびに上げる(build.gradle の versionName / sw.js の CACHE と一緒に)
 var APP_KEY = 'yomu_kaku';        // バックアップの識別(別アプリのファイルを読まない)
 var LS = 'yomu.';
 var LS_PREF = LS + 'pref.v1';
@@ -133,52 +133,91 @@ function el(tag, cls, txt){
   return e;
 }
 
-/* ---- 読み上げ(任意。Play版のWebViewはWeb Speech API非対応なのでネイティブへ橋渡し) ---- */
-var NATIVE_TTS = (function(){
+/* ---- 読み上げ(任意。Play版のWebViewはWeb Speech API非対応なのでネイティブへ橋渡し) ----
+   ・Play版: @capacitor-community/text-to-speech(package.json に入れて cap sync)。バンドラ無しなので
+     Capacitor.registerPlugin(@capacitor/core の関数)は WebView に無い。ネイティブ側が入れる Capacitor.Plugins.TextToSpeech を使う
+   ・プラグインが入っていない版では canSpeak()=false(押しても鳴らないボタンを出さない)
+   ・ネイティブの speak() は読み終わりで resolve する Promise → opts.onend / 失敗(言語の声が無い等)は opts.onerror */
+var ttsCache = { cap:undefined, plugin:null };
+function nativeTts(){
+  var c = null;
+  try{ c = (typeof window !== 'undefined' && window.Capacitor) || null; }catch(_){}
+  if(c === ttsCache.cap) return ttsCache.plugin;
+  ttsCache.cap = c; ttsCache.plugin = null;
   try{
-    var c = window.Capacitor;
-    if(c && typeof c.isNativePlatform === 'function' && c.isNativePlatform() && typeof c.registerPlugin === 'function'){
-      return c.registerPlugin('TextToSpeech');
+    if(c && typeof c.isNativePlatform === 'function' && c.isNativePlatform() &&
+       typeof c.isPluginAvailable === 'function' && c.isPluginAvailable('TextToSpeech')){
+      var p = c.Plugins && c.Plugins.TextToSpeech;
+      if(p && typeof p.speak === 'function') ttsCache.plugin = p;
+      else if(typeof c.registerPlugin === 'function') ttsCache.plugin = c.registerPlugin('TextToSpeech');
     }
-  }catch(_){}
-  return null;
-})();
+  }catch(_){ ttsCache.plugin = null; }
+  return ttsCache.plugin;
+}
+function webSynth(){ try{ return (typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis) || null; }catch(_){ return null; } }
+/* Web: 端末内の声を優先して選ぶ(無ければ同じ言語のネットの声) */
+function pickVoice(synth, tag){
+  try{
+    var vs = synth.getVoices() || [];
+    var t = String(tag).toLowerCase(), pre = t.split('-')[0];
+    return vs.filter(function(x){ return x.lang && x.lang.toLowerCase() === t && x.localService; })[0]
+        || vs.filter(function(x){ return x.lang && x.lang.toLowerCase() === t; })[0]
+        || vs.filter(function(x){ return x.lang && x.lang.toLowerCase().indexOf(pre) === 0; })[0]
+        || null;
+  }catch(_){ return null; }
+}
 function speak(text, opts){
   if(!text) return false;
   var o = opts || {};
   var tag = TTS_LANG[o.lang || pref.lang] || 'ja-JP';
   var rate = o.rate || 1;
-  if(NATIVE_TTS){
+  var nt = nativeTts();
+  if(nt){
     try{
-      NATIVE_TTS.stop().catch(function(){}).then(function(){
-        NATIVE_TTS.speak({ text:String(text), lang:String(tag), rate:rate, pitch:1.0, volume:1.0 }).catch(function(){});
-      });
-    }catch(_){}
+      nt.stop().catch(function(){}).then(function(){
+        return nt.speak({ text:String(text), lang:String(tag), rate:rate, pitch:1.0, volume:1.0 });
+      }).then(function(){ if(o.onend) o.onend(); }, function(){ if(o.onerror) o.onerror(); });
+    }catch(_){ return false; }
     return true;
   }
-  if(typeof window === 'undefined' || !('speechSynthesis' in window)) return false;
+  var synth = webSynth();
+  if(!synth) return false;
   try{
-    var synth = window.speechSynthesis; synth.cancel();
+    synth.cancel();
     var u = new SpeechSynthesisUtterance(String(text));
     u.lang = tag; u.rate = rate;
-    try{
-      var vs = synth.getVoices() || [];
-      var pre = String(tag).split('-')[0].toLowerCase();
-      var v = vs.filter(function(x){ return x.lang && x.lang.toLowerCase() === String(tag).toLowerCase() && x.localService; })[0]
-           || vs.filter(function(x){ return x.lang && x.lang.toLowerCase() === String(tag).toLowerCase(); })[0]
-           || vs.filter(function(x){ return x.lang && x.lang.toLowerCase().indexOf(pre) === 0; })[0];
-      if(v) u.voice = v;
-    }catch(_){}
+    var v = pickVoice(synth, tag);
+    if(v) u.voice = v;
     if(o.onend) u.onend = o.onend;
+    /* cancel() で止めたときの interrupted/canceled は失敗ではない */
+    if(o.onerror) u.onerror = function(e){ var er = e && e.error; if(er === 'interrupted' || er === 'canceled') return; o.onerror(); };
     synth.speak(u);
     return true;
   }catch(_){ return false; }
 }
 function stopSpeak(){
-  try{ if(NATIVE_TTS) NATIVE_TTS.stop().catch(function(){}); }catch(_){}
-  try{ if(typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel(); }catch(_){}
+  try{ var nt = nativeTts(); if(nt) nt.stop().catch(function(){}); }catch(_){}
+  try{ var s = webSynth(); if(s) s.cancel(); }catch(_){}
 }
-function canSpeak(){ return !!(NATIVE_TTS || (typeof window !== 'undefined' && 'speechSynthesis' in window)); }
+function canSpeak(){ return !!(nativeTts() || webSynth()); }
+/* 読み上げに使う声が端末内か(ネットの声=雲マーク用・AACと同じ考え方)。
+   { local:true|false } / 声の一覧がまだ無いときは null(分からない)。ネイティブは端末のTTSエンジン=常に端末内 */
+function voiceInfo(lang){
+  if(nativeTts()) return { local:true };
+  var synth = webSynth();
+  if(!synth) return null;
+  var v = pickVoice(synth, TTS_LANG[lang || pref.lang] || 'ja-JP');
+  if(!v) return null;
+  return { local: v.localService !== false, name: String(v.name || '') };
+}
+/* 声の一覧が後から届いたとき(voiceschanged)に、表示中の画面へ知らせる(1画面分だけ・描き直しで外れる) */
+var voicesCb = null;
+function onVoicesChanged(fn){ voicesCb = (typeof fn === 'function') ? fn : null; }
+function watchVoices(){
+  var s = webSynth();
+  if(!s || typeof s.addEventListener !== 'function') return;
+  try{ s.addEventListener('voiceschanged', function(){ if(voicesCb){ try{ voicesCb(); }catch(_){} } }); }catch(_){}
+}
 /* 無音の振動(Android。iOS Safariでは動かない) */
 function vibrate(pattern){
   try{ if(navigator && typeof navigator.vibrate === 'function') return !!navigator.vibrate(pattern || 60); }catch(_){}
@@ -201,7 +240,7 @@ function screenApi(){
     remove: function(k){ removeKey(LS + k); },
     getExtra: function(k, d){ return (pref.extra[k] === undefined) ? d : pref.extra[k]; },
     setExtra: function(k, v){ pref.extra[k] = v; savePref(); },
-    speak: speak, stopSpeak: stopSpeak, canSpeak: canSpeak, vibrate: vibrate,
+    speak: speak, stopSpeak: stopSpeak, canSpeak: canSpeak, voiceInfo: voiceInfo, onVoicesChanged: onVoicesChanged, vibrate: vibrate,
     lang: pref.lang,
     rtl: RTL_LANGS.indexOf(pref.lang) >= 0,
     ver: VER,
@@ -213,6 +252,7 @@ function renderScreen(id){
   var c = $('scr-' + id);
   if(!c) return;
   c.textContent = '';
+  voicesCb = null;   /* 前の描画への知らせを外す */
   var mod = window.SCREENS && window.SCREENS.get(id);
   if(mod){
     try{ mod.render(c, screenApi()); }
@@ -301,6 +341,7 @@ function init(){
   if($('bk-file')) $('bk-file').addEventListener('change', importBackup);
 
   applyAll(false);
+  watchVoices();
   showScreen('home');
 
   applyBarSpace();

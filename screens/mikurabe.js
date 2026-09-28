@@ -7,8 +7,11 @@
 (function(){
 
   var CSS =
+    /* 見本は上に固定(チップを押しながら見比べられる)。大きい文字でもチップが押せるよう高さは 38vh まで・中はスクロール。
+       #main の上の余白(16px・style.css)の分だけ上げて、見本の上からチップがのぞかないようにする */
     '#scr-mikurabe .mk-preview{ border:2px solid var(--line); border-radius:14px; padding:16px 14px; margin:0 0 14px;' +
-    ' overflow-wrap:anywhere; text-align:start; }' +
+    ' overflow-wrap:anywhere; text-align:start; position:sticky; top:-16px; z-index:3; max-height:38vh; max-height:38dvh; overflow:auto; }' +
+    '#scr-mikurabe .mk-unsaved{ font-weight:700; margin:6px 0 0; }' +
     '#scr-mikurabe .mk-preview p{ margin:0; }' +
     '#scr-mikurabe .mk-row{ margin:0 0 14px; }' +
     '#scr-mikurabe .mk-label{ font-weight:700; margin:0 0 6px; }' +
@@ -79,12 +82,17 @@
       makeRow('bg', 'bg', 'bgs');
 
       /* ---- ほぞん / もどす ---- */
+      /* 選んだ形が保存済みと違う間だけ「まだ ほぞんしていません」(保存しないで離れると使われないため) */
+      var unsaved = api.el('p', 'hint mk-unsaved hidden', api.T('screen.mikurabe.unsaved'));
+      unsaved.id = 'mk-unsaved';
+      c.appendChild(unsaved);
       var btns = api.el('div', 'btn-row');
       var saveBtn = api.el('button', 'btn primary wide');
       saveBtn.type = 'button'; saveBtn.id = 'mk-save';
       saveBtn.textContent = api.T('screen.mikurabe.save');
       api.Tap.bind(saveBtn, function(){
         P.save(api, draft);
+        refresh();
         api.toast(api.T('screen.mikurabe.saved'));
       });
       btns.appendChild(saveBtn);
@@ -109,6 +117,9 @@
         for(var k in chipRefs){
           for(var n = 0; n < chipRefs[k].length; n++) chipRefs[k][n].classList.toggle('on', draft[k] === n);
         }
+        var cur = P.load(api), same = true;
+        for(var key in P.DEFAULT){ if(cur[key] !== draft[key]) same = false; }
+        unsaved.classList.toggle('hidden', same);
       }
       refresh();
     }
