@@ -1,4 +1,4 @@
-/* 読む・書くの作業台(仮) 多言語テーブル(そよぎアプリ・キット v1・12言語)
+/* 読み書きの作業台・そよぎ 多言語テーブル(そよぎアプリ・キット v1・12言語)
    ・window.YOMU_I18N = { ja, en, de, fr, es, it, pt, nl, sv, ko, zh, ar }
    ・キー構造は全言語で完全一致(_check.js が ja を正として構造・配列要素数を機械照合)
    ・🔴 BUILDER: 文言は ja と en の両方に同じキーで足す。画面固有は screen.<画面id>.* に置く。
@@ -12,7 +12,7 @@
 
 /* ============ ja(正) ============ */
 var ja = {
-  app: { name:'読む・書くの作業台(仮)', tagline:'読みやすい形を自分で決めて、1行ずつ読む。' },
+  app: { name:'読み書きの作業台・そよぎ', short:'読み書きの作業台', tagline:'読みやすい形を自分で決めて、1行ずつ読む。' },
   nav: { home:'ホーム', mikurabe:'みくらべ', yomu:'よむ', set:'せってい' },
   common: {
     ok:'OK', cancel:'やめる', save:'ほぞんする', del:'けす', back:'もどる', close:'とじる',
@@ -44,7 +44,7 @@ var ja = {
   },
   screen: {
     home: {
-      title:'読む・書くの作業台(仮)',
+      title:'読み書きの作業台',
       mikurabe:'みくらべる',
       mikurabeSub:'書体・字間・行間・背景・大きさを えらんで、読み方プロフィールに ほぞん',
       yomu:'よむ',
@@ -95,7 +95,7 @@ var ja = {
 
 /* ============ en ============ */
 var en = {
-  app: { name:'Read and Write Bench - SOYOGI (draft)', tagline:'Choose the shape that reads best for you, then read one line at a time.' },
+  app: { name:'Text Workbench - SOYOGI', short:'Text Workbench', tagline:'Choose the shape that reads best for you, then read one line at a time.' },
   nav: { home:'Home', mikurabe:'Compare', yomu:'Read', set:'Settings' },
   common: {
     ok:'OK', cancel:'Cancel', save:'Save', del:'Delete', back:'Back', close:'Close',
@@ -127,7 +127,7 @@ var en = {
   },
   screen: {
     home: {
-      title:'Read and Write Bench - SOYOGI (draft)',
+      title:'Text Workbench',
       mikurabe:'Compare',
       mikurabeSub:'Choose typeface, letter spacing, line spacing, background and size, and save them as your reading profile',
       yomu:'Read',
@@ -180,7 +180,8 @@ function mergeDeep(t, s){ for(var k in s){ if(s[k] && typeof s[k] === 'object' &
 /* ---- de: 翻訳 ---- */
 TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "Arbeitstisch zum Lesen und Schreiben - SOYOGI (Entwurf)",
+    "name": "Textwerkbank - SOYOGI",
+    "short": "Textwerkbank",
     "tagline": "Wählen Sie selbst, wie sich Text für Sie gut lesen lässt, und lesen Sie Zeile für Zeile."
   },
   "nav": {
@@ -263,7 +264,7 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "Arbeitstisch zum Lesen und Schreiben - SOYOGI (Entwurf)",
+      "title": "Textwerkbank",
       "mikurabe": "Vergleichen",
       "mikurabeSub": "Schriftart, Zeichenabstand, Zeilenabstand, Hintergrund und Größe wählen und als Leseprofil speichern",
       "yomu": "Lesen",
@@ -351,7 +352,8 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
 /* ---- fr: 翻訳 ---- */
 TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "Atelier lire et écrire - SOYOGI (provisoire)",
+    "name": "Atelier de texte - SOYOGI",
+    "short": "Atelier de texte",
     "tagline": "Choisissez l'affichage qui vous convient, puis lisez une ligne à la fois."
   },
   "nav": {
@@ -434,7 +436,7 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "Atelier lire et écrire - SOYOGI (provisoire)",
+      "title": "Atelier de texte",
       "mikurabe": "Comparer",
       "mikurabeSub": "Choisissez la police, l'espacement des lettres, l'interligne, le fond et la taille, puis enregistrez-les dans votre profil de lecture",
       "yomu": "Lire",
@@ -522,7 +524,8 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
 /* ---- es: 翻訳 ---- */
 TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "Mesa de lectura y escritura - SOYOGI (borrador)",
+    "name": "Taller de textos - SOYOGI",
+    "short": "Taller de textos",
     "tagline": "Elegir la forma más cómoda de leer y leer línea por línea."
   },
   "nav": {
@@ -605,7 +608,7 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "Mesa de lectura y escritura - SOYOGI (borrador)",
+      "title": "Taller de textos",
       "mikurabe": "Comparar",
       "mikurabeSub": "Elegir tipo de letra, espacio entre letras, espacio entre líneas, fondo y tamaño, y guardarlos en el perfil de lectura",
       "yomu": "Leer",
@@ -693,7 +696,8 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
 /* ---- it: 翻訳 ---- */
 TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "Banco per leggere e scrivere - SOYOGI (bozza)",
+    "name": "Officina dei testi - SOYOGI",
+    "short": "Officina dei testi",
     "tagline": "Decida Lei la forma più facile da leggere e legga una riga alla volta."
   },
   "nav": {
@@ -776,7 +780,7 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "Banco per leggere e scrivere - SOYOGI (bozza)",
+      "title": "Officina dei testi",
       "mikurabe": "Confronta",
       "mikurabeSub": "Scelga carattere, spazio tra le lettere, interlinea, sfondo e dimensione, e li salvi nel Suo profilo di lettura",
       "yomu": "Leggi",
@@ -864,7 +868,8 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
 /* ---- pt: 翻訳 ---- */
 TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "Bancada de leitura e escrita - SOYOGI (provisório)",
+    "name": "Bancada de textos - SOYOGI",
+    "short": "Bancada de textos",
     "tagline": "Escolher o formato que facilita a leitura e ler uma linha de cada vez."
   },
   "nav": {
@@ -947,7 +952,7 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "Bancada de leitura e escrita - SOYOGI (provisório)",
+      "title": "Bancada de textos",
       "mikurabe": "Comparar",
       "mikurabeSub": "Escolher o tipo de letra, o espaço entre letras, o espaço entre linhas, o fundo e o tamanho, e guardar tudo no perfil de leitura",
       "yomu": "Ler",
@@ -1035,7 +1040,8 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
 /* ---- nl: 翻訳 ---- */
 TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "Lees- en schrijfwerkplek - SOYOGI (concept)",
+    "name": "Tekstwerkbank - SOYOGI",
+    "short": "Tekstwerkbank",
     "tagline": "Bepaal zelf wat voor u prettig leest, en lees regel voor regel."
   },
   "nav": {
@@ -1118,7 +1124,7 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "Lees- en schrijfwerkplek - SOYOGI (concept)",
+      "title": "Tekstwerkbank",
       "mikurabe": "Vergelijken",
       "mikurabeSub": "Kies lettertype, letterafstand, regelafstand, achtergrond en grootte, en sla ze op in uw leesprofiel",
       "yomu": "Lezen",
@@ -1206,7 +1212,8 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
 /* ---- sv: 翻訳 ---- */
 TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "Arbetsbänk för att läsa och skriva - SOYOGI (utkast)",
+    "name": "Läs- och skrivbord - SOYOGI",
+    "short": "Läs- och skrivbord",
     "tagline": "Välj själv hur texten blir lättast att läsa, och läs en rad i taget."
   },
   "nav": {
@@ -1289,7 +1296,7 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "Arbetsbänk för att läsa och skriva - SOYOGI (utkast)",
+      "title": "Läs- och skrivbord",
       "mikurabe": "Jämför",
       "mikurabeSub": "Välj typsnitt, bokstavsavstånd, radavstånd, bakgrund och storlek, och spara dem som din läsprofil",
       "yomu": "Läs",
@@ -1377,7 +1384,8 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
 /* ---- ko: 翻訳 ---- */
 TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "읽기·쓰기 작업대 - SOYOGI (가제)",
+    "name": "읽기·쓰기 작업대 - SOYOGI",
+    "short": "읽기·쓰기 작업대",
     "tagline": "읽기 편한 모양을 스스로 정하고, 한 줄씩 읽어요."
   },
   "nav": {
@@ -1460,7 +1468,7 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "읽기·쓰기 작업대 - SOYOGI (가제)",
+      "title": "읽기·쓰기 작업대",
       "mikurabe": "비교하기",
       "mikurabeSub": "글꼴·자간·행간·배경·크기를 골라서 읽기 프로필에 저장",
       "yomu": "읽기",
@@ -1548,7 +1556,8 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
 /* ---- zh: 翻訳 ---- */
 TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "读写工作台 - SOYOGI（暂定名）",
+    "name": "读写工作台 - SOYOGI",
+    "short": "读写工作台",
     "tagline": "自己决定容易读的样式，一行一行地读。"
   },
   "nav": {
@@ -1631,7 +1640,7 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "读写工作台 - SOYOGI（暂定名）",
+      "title": "读写工作台",
       "mikurabe": "对比",
       "mikurabeSub": "选择字体、字间距、行间距、背景和大小，保存为阅读偏好",
       "yomu": "阅读",
@@ -1719,7 +1728,8 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
 /* ---- ar: 翻訳 ---- */
 TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
   "app": {
-    "name": "طاولة القراءة والكتابة - SOYOGI (مسودة)",
+    "name": "طاولة قراءة وكتابة - SOYOGI",
+    "short": "طاولة قراءة وكتابة",
     "tagline": "اختر بنفسك الشكل الذي يسهل عليك قراءته، واقرأ سطرًا واحدًا في كل مرة."
   },
   "nav": {
@@ -1802,7 +1812,7 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
   },
   "screen": {
     "home": {
-      "title": "طاولة القراءة والكتابة - SOYOGI (مسودة)",
+      "title": "طاولة قراءة وكتابة",
       "mikurabe": "المقارنة",
       "mikurabeSub": "اختر الخط والمسافة بين الحروف والمسافة بين الأسطر والخلفية والحجم، واحفظها في ملف القراءة الشخصي",
       "yomu": "القراءة",
