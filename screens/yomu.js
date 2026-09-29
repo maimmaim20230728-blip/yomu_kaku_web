@@ -43,6 +43,7 @@
   var BREAK_MINS = [0, 5, 10, 15, 20];   /* 0=なし。並びは i18n の breakOpts と同じ */
   var timer = 0;                          /* 休憩タイマー(画面をまたいで1本だけ) */
   var gen = 0;                            /* 描画の世代。言語切替などで描き直したら、前の描画の読み上げ(onend)は続けない */
+  var live = null;                        /* いまの描画の 戻るボタン(Play版)の受け口 { gen, back() } */
 
   /* 文章を「読む1行」に切る: 改行 / 。！？؟ / 英文の . ! ? ؟ + 空白
      ・区切りのすぐ後の閉じかっこ・引用符(」』）)】〕]"'”’)は同じ行に入れる(」や ）だけで始まる行を作らない)
@@ -99,12 +100,15 @@
       if(BREAK_MINS.indexOf(breakMin) < 0) breakMin = 0;
       var breakDue = 0;      /* 休憩の合図を出す時刻(ms)。0=止めている */
       var bandShown = false;
+      var fromPaste = false; /* この描画で 貼り付け欄→「この文で よむ」で読む表示に来た(戻るボタンで貼り付け欄へもどる) */
 
       /* いま表示中か(隠れたら読み上げとタイマーを止める) */
       function visible(){ return !c.classList.contains('hidden'); }
 
       function persist(){
-        if(!api.save('read', { text:text, idx:idx, reading:reading })) api.toast(api.T('common.storageFull'));
+        if(api.save('read', { text:text, idx:idx, reading:reading })) return true;
+        api.toast(api.T('common.storageFull'));
+        return false;
       }
 
       c.appendChild(api.el('h1', 'scr-title', api.T('screen.yomu.title')));
@@ -132,9 +136,9 @@
         var t = String(ta.value || '');
         var ls = splitLines(t);
         if(!ls.length){ api.toast(api.T('screen.yomu.emptyText')); return; }
-        text = t; lines = ls; idx = 0; reading = true;
+        text = t; lines = ls; idx = 0; reading = true; fromPaste = true;
         voiceLang = textLang(text, api.lang);
-        persist();
+        if(persist() && api.markSaved) api.markSaved();   /* 保存できた=戻るボタンで「まだ ほぞんしていません」を出さない */
         show();
         refreshVoiceMark();
         showCur(false);   /* 貼り付け欄が長い表示に入れ替わったとき、ブラウザのスクロール位置の補正で文の終わりへ飛ばないよう、1行目を画面に入れる */
@@ -216,7 +220,7 @@
       changeBtn.textContent = api.T('screen.yomu.change');
       api.Tap.bind(changeBtn, function(){
         stopSpeaking();
-        reading = false;
+        reading = false; fromPaste = false;
         persist();
         show();
       });
@@ -377,10 +381,23 @@
         else { clearInterval(timer); timer = 0; breakDue = 0; hideBand(); ta.value = text; }
       }
 
+      /* ===== 戻るボタン(Play版・2026-09-29) =====
+         ①ひとやすみの帯が出ていたら「つづける」と同じ(帯を消して、休憩の合図を はじめから)
+         ②貼り付け欄から読む表示に来たなら「文を かえる」と同じ(読み上げを止めて 貼り付け欄へ)
+         ③それ以外は画面を離れる(false=共通の動き)。その前に 読み上げと休憩の合図を止める */
+      live = { gen:myGen, back:function(){
+        if(reading && bandShown){ hideBand(); startBreak(); return true; }
+        if(reading && fromPaste){ stopSpeaking(); reading = false; fromPaste = false; persist(); show(); return true; }
+        stopSpeaking();
+        clearInterval(timer); timer = 0; breakDue = 0;
+        return false;
+      } };
+
       clearInterval(timer); timer = 0;   /* 前回描画のタイマーを止めてから始める */
       refreshChips();
       show();
       refreshVoiceMark();
-    }
+    },
+    back: function(){ return (live && live.gen === gen) ? live.back() : false; }
   });
 })();
