@@ -96,6 +96,31 @@ var ja = {
       breakOff:'ひとやすみの めやすを なしに しました',
       profileHint:'形は「みくらべ」で かえられます。'
     }
+  },
+  /* はじめての つかいかた(app.js openGuide・初回に必ず出す・2026-09-30)。heads と bodies は同じ数。
+     ボタン名は画面の文字と同じにする。隠れた入口は無いので GUIDE_AGAIN=true(せっていの「つかいかた」から もう一度) */
+  guide: {
+    title:'つかいかた', step:'{n} / {m}', start:'はじめる', again:'もういちど 見る',
+    heads:[
+      '読み書きの作業台へ ようこそ',
+      'さいしょに すること',
+      '「みくらべ」の 画面',
+      '文章を はりつける(「よむ」の 画面)',
+      '1行ずつ 読む(「よむ」の 画面)',
+      'ひとやすみの めやす',
+      'ほぞんする ばしょ と きしゅへんこう',
+      '見やすく する'
+    ],
+    bodies:[
+      'このアプリは、文章を 自分に 読みやすい 形に して、1行ずつ 読むための 道具です。\n字の 形・あいだ・いろ・大きさを 自分で えらんで、「読み方プロフィール」として ほぞんできます。\nはりつけた 文章は、今 読む 1行だけが 明るく なります。\n自分で 書いた 文を はりつけて、聞いて たしかめる ことも できます。',
+      'まず 下の「みくらべ」を おして、読みやすい 形を えらびます。\nえらんだら「この形で ほぞんする」を おします。\nつぎに 下の「よむ」を おして、読みたい 文章を はりつけます。\nホームの「みくらべる」「よむ」の ボタンからも、同じ 画面が ひらきます。\n形を えらばなくても、はじめの 形(ぎょうかん 2.0・はいけい きなり)で 読めます。',
+      '上の 見本の 文を 見ながら、下の ボタンで 形を かえます。\nかえられるのは「しょたい(書体)」「もじの大きさ」「じかん(字と字の あいだ)」「ぎょうかん(行と行の あいだ)」「はいけいの いろ」です。\n「この形で ほぞんする」を おすと、「よむ」の 画面が この形に なります。形を かえて まだ ほぞんして いない ときは、この 画面に「まだ ほぞんしていません」と 出ます。\n「はじめの形に もどす」で、いつでも はじめの 形に もどせます。',
+      '「よみたい 文章」の 欄に 文章を はりつけて、「この文で よむ」を おします。\n文章は「。」や 改行の ところで、1行ずつに 分かれます。\n今 読む 1行だけが 明るく、ほかの 行は うすく 出ます。\nべつの 文章に する ときは「文を かえる」を おします。\n文章と 今の 行は のこるので、とじても つづきから 読めます。',
+      '「つぎ」「まえ」で 1行ずつ すすみます。行を タップすると、その 行から 読めます。\n「🔊 よみあげ」を おすと、今の 行から 声で 読み、読みおわると つぎの 行へ すすみます。\n「とめる」で 声が 止まります。\n声で 読めない 端末では「この端末では 読み上げできません」と 出ます。',
+      '「よむ」の 画面の 下の「ひとやすみの めやす」で、「なし」「5分」「10分」「15分」「20分」から えらべます。\nきめた 時間に なると、画面の 上に「ひとやすみ」の 帯が 出て、小さな 音で 知らせます(スマホに よっては ふるえます)。\n「つづける」を おすと、また はじめから 時間を はかります。\nいそがなくて だいじょうぶです。',
+      'はりつけた 文も、えらんだ 形も、この端末の 中だけに のこります。どこにも 送られません。\nただし「🔊 よみあげ」に ☁ が ついている ときは、ネットの 声です。よむ 文が 声の 会社に 送られる ことが あります。\nあたらしい スマホに うつる ときは、「せってい」の「かきだす」で ファイルを ほぞんして、あたらしい スマホで「よみこむ」を おします。',
+      '「せってい」の「もじの大きさ」の ボタンを おすたびに、画面の 字が「ふつう」「大きい」「とても大きい」に かわります。\n「いろ」で、画面の いろを「みどり」「みずいろ」「しろ」「くろ」から えらべます。\n読む 文章の 形は「みくらべ」で かえます。\nこの 案内は「せってい」の「つかいかた」で「もういちど 見る」を おすと、また 見られます。'
+    ]
   }
 };
 
@@ -183,6 +208,29 @@ var en = {
       breakOff:'Break reminder turned off',
       profileHint:'You can change the shape on the Compare screen.'
     }
+  },
+  guide: {
+    title:'How to use', step:'{n} / {m}', start:'Start', again:'Show again',
+    heads:[
+      'Welcome to Text Workbench',
+      'What to do first',
+      'The Compare screen',
+      'Paste a text (Read screen)',
+      'Read one line at a time (Read screen)',
+      'Break reminder',
+      'Where things are saved, and changing phones',
+      'Making the screen easier to see'
+    ],
+    bodies:[
+      'This app is a tool for reading text in a shape that is easy for you, one line at a time.\nYou choose the typeface, spacing, background and size yourself, and save them as your "Reading profile".\nWhen you paste a text, only the line you are reading now is highlighted.\nYou can also paste something you wrote and listen to it to check it.',
+      'First, tap "Compare" at the bottom and choose a shape that is easy for you to read.\nThen tap "Save this shape".\nNext, tap "Read" at the bottom and paste the text you want to read.\nThe "Compare" and "Read" buttons on the Home screen open the same screens.\nEven if you do not choose anything, you can read in the first shape (line spacing 2.0, cream background).',
+      'Look at the sample text at the top while you change the shape with the buttons below.\nYou can change "Typeface", "Text size", "Letter spacing", "Line spacing" and "Background".\nTap "Save this shape" and the Read screen will use this shape. While a change is not saved, "Not saved yet" is shown on this screen.\nTap "Back to the first shape" to return to the first shape at any time.',
+      'Paste your text into the "Text to read" box and tap "Read this text".\nThe text is split into lines at the end of each sentence and at line breaks.\nOnly the line you are reading now is bright; the other lines are pale.\nTo read a different text, tap "Change the text".\nThe text and the line you were on are kept, so next time you can go on from where you stopped.',
+      'Tap "Next" and "Previous" to move one line at a time. Tap a line to read from there.\nTap "🔊 Read aloud" to hear the text from the current line; when a line ends, the next line is read.\nTap "Stop" to stop the voice.\nOn devices that cannot read aloud, "Reading aloud is not available on this device" is shown.',
+      'Under "Break reminder" on the Read screen, choose "None", "5 min", "10 min", "15 min" or "20 min".\nWhen the time comes, a "Take a break" band appears at the top of the screen with a soft sound (some phones also vibrate).\nTap "Continue" to start timing again from the beginning.\nThere is no hurry.',
+      'The text you paste and the shape you choose stay only on this device. Nothing is sent anywhere.\nHowever, when "🔊 Read aloud" has a ☁ mark, it uses an online voice. The text being read may be sent to the company that provides the voice.\nWhen you move to a new phone, tap "Export" in "Settings" to save a file, then tap "Import" on the new phone.',
+      'In "Settings", each tap on the "Text size" button changes the screen text to "Normal", "Large" or "Very large".\nWith "Color", choose "Green", "Light blue", "White" or "Black" for the screen.\nThe shape of the text you read is changed on the "Compare" screen.\nTo see this guide again, tap "Show again" next to "How to use" in "Settings".'
+    ]
   }
 };
 
@@ -364,6 +412,32 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "Pausen-Erinnerung ausgeschaltet",
       "profileHint": "Die Darstellung können Sie unter „Vergleichen“ ändern."
     }
+  },
+  "guide": {
+    "title": "Anleitung",
+    "step": "{n} / {m}",
+    "start": "Starten",
+    "again": "Noch einmal ansehen",
+    "heads": [
+      "Willkommen bei der Textwerkbank",
+      "Was Sie zuerst tun",
+      "Der Bildschirm „Vergleichen“",
+      "Text einfügen (Bildschirm „Lesen“)",
+      "Zeile für Zeile lesen (Bildschirm „Lesen“)",
+      "Pausen-Erinnerung",
+      "Wo alles gespeichert wird, und Gerätewechsel",
+      "Den Bildschirm besser sehen"
+    ],
+    "bodies": [
+      "Diese App ist ein Werkzeug, um Text in einer Darstellung, die sich für Sie gut lesen lässt, Zeile für Zeile zu lesen.\nSie wählen Schriftart, Abstände, Hintergrund und Größe selbst und speichern sie als Ihr „Leseprofil“.\nIn einem eingefügten Text wird nur die Zeile hervorgehoben, die Sie gerade lesen.\nSie können auch einen selbst geschriebenen Text einfügen und ihn zur Kontrolle anhören.",
+      "Tippen Sie zuerst unten auf „Vergleichen“ und wählen Sie eine Darstellung, die sich für Sie gut lesen lässt.\nTippen Sie dann auf „Diese Darstellung speichern“.\nTippen Sie danach unten auf „Lesen“ und fügen Sie den Text ein, den Sie lesen möchten.\nDie Schaltflächen „Vergleichen“ und „Lesen“ auf der Startseite öffnen dieselben Bildschirme.\nAuch ohne Auswahl können Sie in der ersten Darstellung lesen (Zeilenabstand 2.0, Hintergrund Creme).",
+      "Schauen Sie auf den Beispieltext oben, während Sie die Darstellung mit den Schaltflächen darunter ändern.\nÄndern können Sie „Schriftart“, „Schriftgröße“, „Zeichenabstand“, „Zeilenabstand“ und „Hintergrundfarbe“.\nWenn Sie auf „Diese Darstellung speichern“ tippen, verwendet der Bildschirm „Lesen“ diese Darstellung. Solange eine Änderung nicht gespeichert ist, steht hier „Noch nicht gespeichert“.\nMit „Zurücksetzen“ kehren Sie jederzeit zur ersten Darstellung zurück.",
+      "Fügen Sie Ihren Text in das Feld „Text zum Lesen“ ein und tippen Sie auf „Diesen Text lesen“.\nDer Text wird am Ende jedes Satzes und an jedem Zeilenumbruch in Zeilen geteilt.\nNur die Zeile, die Sie gerade lesen, ist hell; die anderen Zeilen sind blass.\nFür einen anderen Text tippen Sie auf „Text ändern“.\nDer Text und die aktuelle Zeile bleiben erhalten, so können Sie beim nächsten Mal dort weiterlesen.",
+      "Mit „Nächste“ und „Vorherige“ gehen Sie Zeile für Zeile weiter. Wenn Sie auf eine Zeile tippen, lesen Sie ab dort.\nMit „🔊 Vorlesen“ hören Sie den Text ab der aktuellen Zeile; am Ende einer Zeile geht es mit der nächsten weiter.\nMit „Stopp“ hört die Stimme auf.\nAuf Geräten, die nicht vorlesen können, steht „Vorlesen ist auf diesem Gerät nicht möglich“.",
+      "Unter „Pausen-Erinnerung“ auf dem Bildschirm „Lesen“ wählen Sie „Keine“, „5 Min.“, „10 Min.“, „15 Min.“ oder „20 Min.“.\nWenn die Zeit um ist, erscheint oben ein Band „Kurze Pause“ mit einem leisen Ton (manche Smartphones vibrieren auch).\nMit „Weiter“ beginnt die Zeit von vorn.\nSie müssen sich nicht beeilen.",
+      "Der eingefügte Text und die gewählte Darstellung bleiben nur auf diesem Gerät. Nichts wird irgendwohin gesendet.\nWenn bei „🔊 Vorlesen“ ein ☁ steht, ist es jedoch eine Online-Stimme. Der vorgelesene Text kann dann an den Anbieter der Stimme gesendet werden.\nWenn Sie auf ein neues Smartphone wechseln, speichern Sie unter „Einstellungen“ mit „Exportieren“ eine Datei und tippen auf dem neuen Smartphone auf „Importieren“.",
+      "Unter „Einstellungen“ ändert jedes Tippen auf die Schaltfläche bei „Schriftgröße“ den Text auf „Normal“, „Groß“ oder „Sehr groß“.\nUnter „Farbe“ wählen Sie „Grün“, „Hellblau“, „Weiß“ oder „Schwarz“.\nDie Darstellung des Lesetexts ändern Sie unter „Vergleichen“.\nDiese Anleitung sehen Sie wieder, wenn Sie unter „Einstellungen“ bei „Anleitung“ auf „Noch einmal ansehen“ tippen."
+    ]
   }
 });
 /* ---- /de ---- */
@@ -542,6 +616,32 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "Rappel de pause désactivé",
       "profileHint": "Vous pouvez changer l'affichage sur l'écran \"Comparer\"."
     }
+  },
+  "guide": {
+    "title": "Mode d'emploi",
+    "step": "{n} / {m}",
+    "start": "Commencer",
+    "again": "Revoir",
+    "heads": [
+      "Bienvenue dans l'Atelier de texte",
+      "Pour commencer",
+      "L'écran « Comparer »",
+      "Coller un texte (écran « Lire »)",
+      "Lire ligne par ligne (écran « Lire »)",
+      "Rappel de pause",
+      "Où tout est enregistré, et changer de téléphone",
+      "Rendre l'écran plus lisible"
+    ],
+    "bodies": [
+      "Cette application sert à lire un texte ligne par ligne, avec un affichage facile à lire pour vous.\nVous choisissez vous-même la police, les espacements, le fond et la taille, et vous les enregistrez dans votre « Profil de lecture ».\nDans un texte collé, seule la ligne que vous lisez est mise en évidence.\nVous pouvez aussi coller un texte que vous avez écrit et l'écouter pour le vérifier.",
+      "Touchez d'abord « Comparer » en bas de l'écran et choisissez un affichage facile à lire pour vous.\nTouchez ensuite « Enregistrer cet affichage ».\nPuis touchez « Lire » en bas et collez le texte que vous voulez lire.\nLes boutons « Comparer » et « Lire » de l'accueil ouvrent les mêmes écrans.\nMême sans rien choisir, vous pouvez lire avec l'affichage de départ (interligne 2.0, fond crème).",
+      "Regardez le texte d'exemple en haut pendant que vous changez l'affichage avec les boutons en dessous.\nVous pouvez changer « Police », « Taille du texte », « Espacement des lettres », « Interligne » et « Couleur du fond ».\nTouchez « Enregistrer cet affichage » et l'écran « Lire » utilisera cet affichage. Tant qu'un changement n'est pas enregistré, « Pas encore enregistré » s'affiche ici.\nAvec « Revenir à l'affichage de départ », vous revenez à tout moment à l'affichage de départ.",
+      "Collez votre texte dans le champ « Texte à lire » et touchez « Lire ce texte ».\nLe texte est découpé en lignes à la fin de chaque phrase et à chaque retour à la ligne.\nSeule la ligne que vous lisez est claire ; les autres lignes sont pâles.\nPour lire un autre texte, touchez « Changer de texte ».\nLe texte et la ligne en cours sont gardés : la prochaine fois, vous reprenez là où vous en étiez.",
+      "Touchez « Suivant » et « Précédent » pour avancer ligne par ligne. Touchez une ligne pour lire à partir de là.\nTouchez « 🔊 Lire à voix haute » pour entendre le texte à partir de la ligne en cours ; à la fin d'une ligne, la suivante est lue.\nTouchez « Arrêter » pour arrêter la voix.\nSur les appareils qui ne peuvent pas lire à voix haute, « La lecture à voix haute n'est pas disponible sur cet appareil » s'affiche.",
+      "Dans « Rappel de pause », sur l'écran « Lire », choisissez « Aucun », « 5 min », « 10 min », « 15 min » ou « 20 min ».\nQuand le temps est écoulé, un bandeau « Petite pause » apparaît en haut de l'écran avec un son doux (certains téléphones vibrent aussi).\nTouchez « Continuer » pour recommencer à compter le temps depuis le début.\nRien ne presse.",
+      "Le texte collé et l'affichage choisi restent uniquement sur cet appareil. Rien n'est envoyé ailleurs.\nMais quand « 🔊 Lire à voix haute » porte le signe ☁, c'est une voix en ligne : le texte lu peut être envoyé à l'entreprise qui fournit la voix.\nPour passer à un nouveau téléphone, touchez « Exporter » dans « Réglages » pour enregistrer un fichier, puis touchez « Importer » sur le nouveau téléphone.",
+      "Dans « Réglages », chaque toucher sur le bouton de « Taille du texte » passe le texte à « Normale », « Grande » ou « Très grande ».\nAvec « Couleur », choisissez « Vert », « Bleu clair », « Blanc » ou « Noir ».\nL'affichage du texte à lire se change dans « Comparer ».\nPour revoir ce guide, touchez « Revoir » à côté de « Mode d'emploi » dans « Réglages »."
+    ]
   }
 });
 /* ---- /fr ---- */
@@ -720,6 +820,32 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "Aviso de descanso desactivado",
       "profileHint": "La forma se puede cambiar en la pantalla \"Comparar\"."
     }
+  },
+  "guide": {
+    "title": "Cómo se usa",
+    "step": "{n} / {m}",
+    "start": "Empezar",
+    "again": "Ver de nuevo",
+    "heads": [
+      "Le damos la bienvenida al Taller de textos",
+      "Lo primero",
+      "La pantalla «Comparar»",
+      "Pegar un texto (pantalla «Leer»)",
+      "Leer línea por línea (pantalla «Leer»)",
+      "Aviso de descanso",
+      "Dónde se guarda todo y cambio de teléfono",
+      "Para ver mejor la pantalla"
+    ],
+    "bodies": [
+      "Esta app es una herramienta para leer textos línea por línea, con la forma que a usted le resulte más fácil de leer.\nUsted elige el tipo de letra, los espacios, el fondo y el tamaño, y los guarda como su «Perfil de lectura».\nEn un texto pegado, solo se resalta la línea que está leyendo.\nTambién puede pegar algo que haya escrito y escucharlo para revisarlo.",
+      "Primero, toque «Comparar» abajo y elija una forma fácil de leer para usted.\nLuego toque «Guardar esta forma».\nDespués, toque «Leer» abajo y pegue el texto que quiera leer.\nLos botones «Comparar» y «Leer» de la pantalla de inicio abren las mismas pantallas.\nAunque no elija nada, puede leer con la forma inicial (espacio entre líneas 2.0, fondo crema).",
+      "Mire el texto de muestra de arriba mientras cambia la forma con los botones de abajo.\nPuede cambiar «Tipo de letra», «Tamaño del texto», «Espacio entre letras», «Espacio entre líneas» y «Color de fondo».\nAl tocar «Guardar esta forma», la pantalla «Leer» usará esta forma. Mientras haya un cambio sin guardar, en esta pantalla aparece «Todavía no se ha guardado».\nCon «Volver a la forma inicial» puede volver a la forma inicial en cualquier momento.",
+      "Pegue su texto en el cuadro «Texto para leer» y toque «Leer este texto».\nEl texto se divide en líneas al final de cada frase y en cada salto de línea.\nSolo la línea que está leyendo se ve clara; las demás líneas se ven tenues.\nPara leer otro texto, toque «Cambiar el texto».\nEl texto y la línea actual se guardan, así que la próxima vez puede seguir donde lo dejó.",
+      "Toque «Siguiente» y «Anterior» para avanzar línea por línea. Toque una línea para leer desde ahí.\nToque «🔊 Leer en voz alta» para escuchar el texto desde la línea actual; al terminar una línea, se lee la siguiente.\nToque «Detener» para parar la voz.\nEn los dispositivos que no pueden leer en voz alta, aparece «La lectura en voz alta no está disponible en este dispositivo».",
+      "En «Aviso de descanso», en la pantalla «Leer», elija «Sin aviso», «5 min», «10 min», «15 min» o «20 min».\nCuando llega la hora, aparece arriba una franja «Un pequeño descanso» con un sonido suave (algunos teléfonos también vibran).\nToque «Continuar» para volver a contar el tiempo desde el principio.\nNo hay prisa.",
+      "El texto pegado y la forma elegida se quedan solo en este dispositivo. No se envían a ningún lugar.\nPero cuando «🔊 Leer en voz alta» lleva la marca ☁, es una voz en línea: el texto que se lee puede enviarse a la empresa que ofrece la voz.\nPara pasar a un teléfono nuevo, toque «Exportar» en «Ajustes» para guardar un archivo y luego toque «Importar» en el teléfono nuevo.",
+      "En «Ajustes», cada toque en el botón de «Tamaño del texto» cambia el texto a «Normal», «Grande» o «Muy grande».\nEn «Color», elija «Verde», «Azul claro», «Blanco» o «Negro».\nLa forma del texto que lee se cambia en «Comparar».\nPara ver esta guía otra vez, toque «Ver de nuevo» junto a «Cómo se usa» en «Ajustes»."
+    ]
   }
 });
 /* ---- /es ---- */
@@ -898,6 +1024,32 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "Promemoria per la pausa disattivato",
       "profileHint": "Può cambiare la forma nella schermata «Confronta»."
     }
+  },
+  "guide": {
+    "title": "Come si usa",
+    "step": "{n} / {m}",
+    "start": "Inizia",
+    "again": "Rivedi",
+    "heads": [
+      "Benvenuti nell'Officina dei testi",
+      "Per cominciare",
+      "La schermata «Confronta»",
+      "Incollare un testo (schermata «Leggi»)",
+      "Leggere una riga alla volta (schermata «Leggi»)",
+      "Promemoria per la pausa",
+      "Dove viene salvato tutto, e cambio di telefono",
+      "Per vedere meglio lo schermo"
+    ],
+    "bodies": [
+      "Questa app è uno strumento per leggere un testo una riga alla volta, nella forma più facile da leggere per Lei.\nSceglie Lei carattere, spazi, sfondo e dimensione, e li salva come Suo «Profilo di lettura».\nIn un testo incollato viene evidenziata solo la riga che sta leggendo.\nPuò anche incollare un testo scritto da Lei e ascoltarlo per controllarlo.",
+      "Per prima cosa tocchi «Confronta» in basso e scelga una forma facile da leggere per Lei.\nPoi tocchi «Salva questa forma».\nQuindi tocchi «Leggi» in basso e incolli il testo che vuole leggere.\nI pulsanti «Confronta» e «Leggi» della schermata Home aprono le stesse schermate.\nAnche senza scegliere nulla, può leggere con la forma iniziale (interlinea 2.0, sfondo crema).",
+      "Guardi il testo di esempio in alto mentre cambia la forma con i pulsanti sotto.\nPuò cambiare «Carattere», «Dimensione del testo», «Spazio tra le lettere», «Interlinea (spazio tra le righe)» e «Colore di sfondo».\nSe tocca «Salva questa forma», la schermata «Leggi» userà questa forma. Finché una modifica non è salvata, in questa schermata compare «Non ancora salvato».\nCon «Torna alla forma iniziale» può tornare alla forma iniziale in qualsiasi momento.",
+      "Incolli il testo nel campo «Testo da leggere» e tocchi «Leggi questo testo».\nIl testo viene diviso in righe alla fine di ogni frase e a ogni a capo.\nSolo la riga che sta leggendo è chiara; le altre righe sono tenui.\nPer leggere un altro testo, tocchi «Cambia testo».\nIl testo e la riga attuale restano salvati, così la prossima volta può riprendere dal punto in cui aveva lasciato.",
+      "Tocchi «Successivo» e «Precedente» per andare avanti una riga alla volta. Tocchi una riga per leggere da lì.\nTocchi «🔊 Leggi ad alta voce» per ascoltare il testo dalla riga attuale; alla fine di una riga viene letta la successiva.\nTocchi «Ferma» per fermare la voce.\nSui dispositivi che non possono leggere ad alta voce compare «La lettura ad alta voce non è disponibile su questo dispositivo».",
+      "In «Promemoria per la pausa», nella schermata «Leggi», scelga «Nessuno», «5 min», «10 min», «15 min» o «20 min».\nQuando arriva il momento, in alto compare la fascia «Una piccola pausa» con un suono leggero (alcuni telefoni vibrano anche).\nTocchi «Continua» per ricominciare a contare il tempo da capo.\nNon c'è fretta.",
+      "Il testo incollato e la forma scelta restano solo su questo dispositivo. Non viene inviato niente da nessuna parte.\nPerò, quando «🔊 Leggi ad alta voce» ha il segno ☁, è una voce online: il testo letto può essere inviato all'azienda che fornisce la voce.\nQuando passa a un nuovo telefono, tocchi «Esporta» in «Impostazioni» per salvare un file, poi tocchi «Importa» sul nuovo telefono.",
+      "In «Impostazioni», ogni tocco sul pulsante di «Dimensione del testo» cambia il testo in «Normale», «Grande» o «Molto grande».\nCon «Colore» sceglie «Verde», «Azzurro», «Bianco» o «Nero».\nLa forma del testo da leggere si cambia in «Confronta».\nPer rivedere questa guida, tocchi «Rivedi» accanto a «Come si usa» in «Impostazioni»."
+    ]
   }
 });
 /* ---- /it ---- */
@@ -1076,6 +1228,32 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "Lembrete de pausa desativado",
       "profileHint": "O formato pode ser mudado em “Comparar”."
     }
+  },
+  "guide": {
+    "title": "Como usar",
+    "step": "{n} / {m}",
+    "start": "Começar",
+    "again": "Ver de novo",
+    "heads": [
+      "Boas-vindas à Bancada de textos",
+      "O primeiro passo",
+      "O ecrã “Comparar”",
+      "Colar um texto (ecrã “Ler”)",
+      "Ler uma linha de cada vez (ecrã “Ler”)",
+      "Lembrete de pausa",
+      "Onde tudo fica guardado, e mudança de dispositivo",
+      "Para ver melhor o ecrã"
+    ],
+    "bodies": [
+      "Esta app é uma ferramenta para ler textos uma linha de cada vez, no formato que for mais fácil de ler.\nO tipo de letra, os espaços, o fundo e o tamanho são escolhidos por si e guardados como o seu “Perfil de leitura”.\nNum texto colado, só a linha que está a ler fica em destaque.\nTambém pode colar um texto que escreveu e ouvi-lo para o rever.",
+      "Primeiro, toque em “Comparar” em baixo e escolha um formato fácil de ler.\nDepois, toque em “Guardar este formato”.\nA seguir, toque em “Ler” em baixo e cole o texto que quer ler.\nOs botões “Comparar” e “Ler” do ecrã inicial abrem os mesmos ecrãs.\nMesmo sem escolher nada, pode ler no formato inicial (espaço entre linhas 2.0, fundo creme).",
+      "Olhe para o texto de exemplo no topo enquanto muda o formato com os botões abaixo.\nPode mudar “Tipo de letra”, “Tamanho do texto”, “Espaço entre letras”, “Espaço entre linhas” e “Cor de fundo”.\nAo tocar em “Guardar este formato”, o ecrã “Ler” passa a usar este formato. Enquanto houver uma alteração por guardar, aparece neste ecrã “Ainda não guardado”.\nCom “Voltar ao formato inicial”, pode voltar ao formato inicial a qualquer momento.",
+      "Cole o texto no campo “Texto para ler” e toque em “Ler este texto”.\nO texto é dividido em linhas no fim de cada frase e em cada mudança de linha.\nSó a linha que está a ler fica clara; as outras linhas ficam esbatidas.\nPara ler outro texto, toque em “Mudar o texto”.\nO texto e a linha atual ficam guardados, por isso da próxima vez pode continuar onde parou.",
+      "Toque em “Seguinte” e “Anterior” para avançar uma linha de cada vez. Toque numa linha para ler a partir dela.\nToque em “🔊 Ler em voz alta” para ouvir o texto a partir da linha atual; no fim de uma linha, é lida a seguinte.\nToque em “Parar” para parar a voz.\nNos dispositivos que não conseguem ler em voz alta, aparece “A leitura em voz alta não está disponível neste dispositivo”.",
+      "Em “Lembrete de pausa”, no ecrã “Ler”, escolha “Nenhum”, “5 min”, “10 min”, “15 min” ou “20 min”.\nQuando chega a hora, aparece no topo uma faixa “Pausa” com um som suave (alguns telemóveis também vibram).\nToque em “Continuar” para voltar a contar o tempo desde o início.\nNão há pressa.",
+      "O texto colado e o formato escolhido ficam apenas neste dispositivo. Nada é enviado para fora dele.\nMas, quando “🔊 Ler em voz alta” tem o sinal ☁, é uma voz online: o texto lido pode ser enviado à empresa que fornece a voz.\nAo mudar para um novo dispositivo, toque em “Exportar” em “Ajustes” para guardar um ficheiro e, depois, toque em “Importar” no novo dispositivo.",
+      "Em “Ajustes”, cada toque no botão de “Tamanho do texto” muda o texto para “Normal”, “Grande” ou “Muito grande”.\nEm “Cor”, escolha “Verde”, “Azul-claro”, “Branco” ou “Preto”.\nO formato do texto a ler muda-se em “Comparar”.\nPara ver este guia de novo, toque em “Ver de novo” ao lado de “Como usar” em “Ajustes”."
+    ]
   }
 });
 /* ---- /pt ---- */
@@ -1254,6 +1432,32 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "Pauzeherinnering uitgezet",
       "profileHint": "U kunt de weergave aanpassen bij Vergelijken."
     }
+  },
+  "guide": {
+    "title": "Zo werkt het",
+    "step": "{n} / {m}",
+    "start": "Beginnen",
+    "again": "Opnieuw bekijken",
+    "heads": [
+      "Welkom bij de Tekstwerkbank",
+      "Wat u eerst doet",
+      "Het scherm “Vergelijken”",
+      "Een tekst plakken (scherm “Lezen”)",
+      "Regel voor regel lezen (scherm “Lezen”)",
+      "Pauzeherinnering",
+      "Waar alles wordt bewaard, en een nieuwe telefoon",
+      "Het scherm beter leesbaar maken"
+    ],
+    "bodies": [
+      "Met deze app leest u tekst regel voor regel, in een weergave die voor u goed leesbaar is.\nU kiest zelf lettertype, afstanden, achtergrond en grootte, en slaat ze op als uw “Leesprofiel”.\nIn een geplakte tekst wordt alleen de regel opgelicht die u nu leest.\nU kunt ook een tekst plakken die u zelf hebt geschreven, en die beluisteren om hem na te kijken.",
+      "Tik eerst onderaan op “Vergelijken” en kies een weergave die voor u goed leesbaar is.\nTik daarna op “Deze weergave opslaan”.\nTik dan onderaan op “Lezen” en plak de tekst die u wilt lezen.\nDe knoppen “Vergelijken” en “Lezen” op het startscherm openen dezelfde schermen.\nOok als u niets kiest, kunt u lezen in de beginweergave (regelafstand 2.0, achtergrond crème).",
+      "Kijk naar de voorbeeldtekst bovenaan terwijl u de weergave verandert met de knoppen eronder.\nU kunt “Lettertype”, “Tekstgrootte”, “Letterafstand”, “Regelafstand” en “Achtergrondkleur” veranderen.\nTik op “Deze weergave opslaan”, dan gebruikt het scherm “Lezen” deze weergave. Zolang een wijziging niet is opgeslagen, staat op dit scherm “Nog niet opgeslagen”.\nMet “Terug naar de beginweergave” gaat u altijd terug naar de beginweergave.",
+      "Plak uw tekst in het vak “Tekst om te lezen” en tik op “Deze tekst lezen”.\nDe tekst wordt in regels verdeeld aan het eind van elke zin en bij elke nieuwe regel.\nAlleen de regel die u nu leest, is helder; de andere regels zijn licht.\nVoor een andere tekst tikt u op “Andere tekst”.\nDe tekst en de huidige regel blijven bewaard, dus de volgende keer leest u verder waar u was gebleven.",
+      "Met “Volgende” en “Vorige” gaat u regel voor regel verder. Tik op een regel om vanaf daar te lezen.\nMet “🔊 Voorlezen” hoort u de tekst vanaf de huidige regel; aan het eind van een regel wordt de volgende voorgelezen.\nMet “Stoppen” stopt de stem.\nOp apparaten die niet kunnen voorlezen, staat “Voorlezen kan niet op dit apparaat”.",
+      "Kies bij “Pauzeherinnering” op het scherm “Lezen” uit “Geen”, “5 min”, “10 min”, “15 min” of “20 min”.\nAls de tijd om is, verschijnt bovenaan een balk “Even pauze” met een zacht geluid (sommige telefoons trillen ook).\nTik op “Verder” om de tijd opnieuw vanaf het begin te laten lopen.\nU hoeft zich niet te haasten.",
+      "De tekst die u plakt en de weergave die u kiest, blijven alleen op dit apparaat. Er wordt niets verstuurd.\nMaar als er bij “🔊 Voorlezen” een ☁ staat, is het een onlinestem: de tekst die wordt voorgelezen, kan naar het bedrijf van die stem worden gestuurd.\nGaat u over naar een nieuwe telefoon? Tik dan in “Instellingen” op “Exporteren” om een bestand op te slaan, en tik op de nieuwe telefoon op “Importeren”.",
+      "In “Instellingen” verandert elke tik op de knop bij “Tekstgrootte” de tekst in “Normaal”, “Groot” of “Heel groot”.\nBij “Kleur” kiest u “Groen”, “Lichtblauw”, “Wit” of “Zwart”.\nDe weergave van de tekst die u leest, verandert u bij “Vergelijken”.\nWilt u deze uitleg nog eens zien? Tik in “Instellingen” bij “Zo werkt het” op “Opnieuw bekijken”."
+    ]
   }
 });
 /* ---- /nl ---- */
@@ -1432,6 +1636,32 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "Påminnelsen om paus är avstängd",
       "profileHint": "Du kan ändra utseendet på skärmen ”Jämför”."
     }
+  },
+  "guide": {
+    "title": "Så fungerar det",
+    "step": "{n} / {m}",
+    "start": "Börja",
+    "again": "Visa igen",
+    "heads": [
+      "Välkommen till Läs- och skrivbord",
+      "Det första du gör",
+      "Skärmen ”Jämför”",
+      "Klistra in en text (skärmen ”Läs”)",
+      "Läs en rad i taget (skärmen ”Läs”)",
+      "Påminnelse om paus",
+      "Var allt sparas, och byte av telefon",
+      "Gör skärmen lättare att se"
+    ],
+    "bodies": [
+      "Den här appen är ett verktyg för att läsa text en rad i taget, med ett utseende som är lätt för dig att läsa.\nDu väljer själv typsnitt, avstånd, bakgrund och storlek och sparar dem som din ”Läsprofil”.\nI en inklistrad text lyses bara raden du läser just nu upp.\nDu kan också klistra in något du själv har skrivit och lyssna på det för att kontrollera det.",
+      "Tryck först på ”Jämför” längst ner och välj ett utseende som är lätt för dig att läsa.\nTryck sedan på ”Spara det här utseendet”.\nTryck därefter på ”Läs” längst ner och klistra in texten du vill läsa.\nKnapparna ”Jämför” och ”Läs” på hemskärmen öppnar samma skärmar.\nÄven om du inte väljer något kan du läsa med det första utseendet (radavstånd 2.0, gräddvit bakgrund).",
+      "Titta på exempeltexten överst medan du ändrar utseendet med knapparna nedanför.\nDu kan ändra ”Typsnitt”, ”Textstorlek”, ”Bokstavsavstånd”, ”Radavstånd” och ”Bakgrundsfärg”.\nTryck på ”Spara det här utseendet” så används utseendet på skärmen ”Läs”. Så länge en ändring inte är sparad står det ”Inte sparat än” på den här skärmen.\nMed ”Återställ” går du när som helst tillbaka till det första utseendet.",
+      "Klistra in din text i rutan ”Text att läsa” och tryck på ”Läs den här texten”.\nTexten delas upp i rader vid slutet av varje mening och vid varje radbrytning.\nBara raden du läser just nu är ljus; de andra raderna är bleka.\nFör att läsa en annan text trycker du på ”Byt text”.\nTexten och raden du var på sparas, så nästa gång kan du fortsätta där du slutade.",
+      "Tryck på ”Nästa” och ”Föregående” för att gå en rad i taget. Tryck på en rad för att läsa därifrån.\nTryck på ”🔊 Läs upp” för att höra texten från den aktuella raden; när en rad är slut läses nästa.\nTryck på ”Stoppa” för att stoppa rösten.\nPå enheter som inte kan läsa upp står det ”Uppläsning fungerar inte på den här enheten”.",
+      "Under ”Påminnelse om paus” på skärmen ”Läs” väljer du ”Ingen”, ”5 min”, ”10 min”, ”15 min” eller ”20 min”.\nNär tiden har gått visas bandet ”En liten paus” överst med ett mjukt ljud (vissa telefoner vibrerar också).\nTryck på ”Fortsätt” för att börja räkna tiden från början igen.\nDet är ingen brådska.",
+      "Texten du klistrar in och utseendet du väljer stannar bara på den här enheten. Inget skickas någonstans.\nMen när ”🔊 Läs upp” har tecknet ☁ är det en röst via internet: texten som läses upp kan skickas till företaget som står för rösten.\nNär du byter till en ny telefon: tryck på ”Exportera” i ”Inställningar” för att spara en fil, och tryck sedan på ”Importera” i den nya telefonen.",
+      "I ”Inställningar” ändrar varje tryck på knappen vid ”Textstorlek” texten till ”Normal”, ”Stor” eller ”Mycket stor”.\nVid ”Färg” väljer du ”Grön”, ”Ljusblå”, ”Vit” eller ”Svart”.\nUtseendet på texten du läser ändrar du under ”Jämför”.\nFör att se den här guiden igen trycker du på ”Visa igen” vid ”Så fungerar det” i ”Inställningar”."
+    ]
   }
 });
 /* ---- /sv ---- */
@@ -1610,6 +1840,32 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "쉬는 시간 알림을 껐어요",
       "profileHint": "모양은 '비교' 화면에서 바꿀 수 있어요."
     }
+  },
+  "guide": {
+    "title": "사용 방법",
+    "step": "{n} / {m}",
+    "start": "시작하기",
+    "again": "다시 보기",
+    "heads": [
+      "읽기·쓰기 작업대에 오신 것을 환영해요",
+      "처음에 할 일",
+      "'비교하기' 화면",
+      "글 붙여 넣기('읽기' 화면)",
+      "한 줄씩 읽기('읽기' 화면)",
+      "쉬는 시간 알림",
+      "저장되는 곳과 기기 변경",
+      "화면을 보기 쉽게"
+    ],
+    "bodies": [
+      "이 앱은 글을 나에게 읽기 쉬운 모양으로 바꿔서 한 줄씩 읽기 위한 도구예요.\n글꼴·간격·배경·크기를 직접 골라서 '읽기 프로필'로 저장할 수 있어요.\n붙여 넣은 글은 지금 읽는 한 줄만 밝게 보여요.\n내가 쓴 글을 붙여 넣고 들으면서 확인할 수도 있어요.",
+      "먼저 아래의 '비교'를 눌러 읽기 쉬운 모양을 골라요.\n고른 다음 '이 모양으로 저장'을 눌러요.\n그다음 아래의 '읽기'를 눌러 읽고 싶은 글을 붙여 넣어요.\n홈의 '비교하기', '읽기' 버튼으로도 같은 화면이 열려요.\n모양을 고르지 않아도 처음 모양(행간 2.0·미색 배경)으로 읽을 수 있어요.",
+      "위의 보기 글을 보면서 아래 버튼으로 모양을 바꿔요.\n'글꼴', '글자 크기', '자간(글자와 글자 사이)', '행간(줄과 줄 사이)', '배경색'을 바꿀 수 있어요.\n'이 모양으로 저장'을 누르면 '읽기' 화면이 이 모양이 돼요. 모양을 바꾸고 아직 저장하지 않았을 때는 이 화면에 '아직 저장하지 않았어요'가 나와요.\n'처음 모양으로 되돌리기'로 언제든지 처음 모양으로 돌아갈 수 있어요.",
+      "'읽고 싶은 글' 칸에 글을 붙여 넣고 '이 글로 읽기'를 눌러요.\n글은 문장이 끝나는 곳과 줄이 바뀌는 곳에서 한 줄씩 나뉘어요.\n지금 읽는 한 줄만 밝고, 다른 줄은 연하게 보여요.\n다른 글로 바꿀 때는 '글 바꾸기'를 눌러요.\n글과 지금 읽던 줄이 남아 있어서, 다음에 열어도 이어서 읽을 수 있어요.",
+      "'다음', '이전'으로 한 줄씩 움직여요. 줄을 누르면 그 줄부터 읽을 수 있어요.\n'🔊 읽어 주기'를 누르면 지금 줄부터 소리로 읽어 주고, 다 읽으면 다음 줄로 넘어가요.\n'멈추기'를 누르면 소리가 멈춰요.\n소리로 읽을 수 없는 기기에서는 '이 기기에서는 읽어 주기를 쓸 수 없어요'가 나와요.",
+      "'읽기' 화면 아래의 '쉬는 시간 알림'에서 '없음', '5분', '10분', '15분', '20분' 중에서 고를 수 있어요.\n정한 시간이 되면 화면 위에 '잠깐 쉬어 가요' 띠가 나오고 작은 소리로 알려 줘요(진동이 오는 휴대폰도 있어요).\n'계속하기'를 누르면 처음부터 다시 시간을 재요.\n서두르지 않아도 괜찮아요.",
+      "붙여 넣은 글도, 고른 모양도 이 기기 안에만 남아요. 어디에도 보내지 않아요.\n다만 '🔊 읽어 주기'에 ☁가 붙어 있을 때는 인터넷 음성이에요. 읽는 글이 음성을 제공하는 회사로 보내질 수 있어요.\n새 스마트폰으로 옮길 때는 '설정'의 '내보내기'로 파일을 저장하고, 새 스마트폰에서 '가져오기'를 눌러요.",
+      "'설정'의 '글자 크기' 버튼을 누를 때마다 화면 글자가 '보통', '크게', '아주 크게'로 바뀌어요.\n'색'에서 화면 색을 '초록', '하늘색', '흰색', '검정' 중에서 고를 수 있어요.\n읽는 글의 모양은 '비교'에서 바꿔요.\n이 안내는 '설정'의 '사용 방법'에서 '다시 보기'를 누르면 다시 볼 수 있어요."
+    ]
   }
 });
 /* ---- /ko ---- */
@@ -1788,6 +2044,32 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "已关闭休息提醒",
       "profileHint": "样式可以在“对比”中更改。"
     }
+  },
+  "guide": {
+    "title": "使用方法",
+    "step": "{n} / {m}",
+    "start": "开始",
+    "again": "再看一次",
+    "heads": [
+      "欢迎使用读写工作台",
+      "首先要做的事",
+      "“对比”画面",
+      "粘贴文章（“阅读”画面）",
+      "一行一行地读（“阅读”画面）",
+      "休息提醒",
+      "保存的位置和更换手机",
+      "让画面更容易看"
+    ],
+    "bodies": [
+      "这个应用是一个工具，可以把文章调成自己容易读的样式，一行一行地读。\n字体、间距、背景和大小都由自己选择，并保存为“阅读偏好”。\n粘贴的文章只会高亮正在读的那一行。\n也可以粘贴自己写的文字，边听边检查。",
+      "先点下方的“对比”，选一个容易读的样式。\n选好后点“保存这个样式”。\n然后点下方的“阅读”，粘贴想读的文章。\n首页的“对比”“阅读”按钮也能打开同样的画面。\n不选样式也可以用初始样式（行间距 2.0、米色背景）来读。",
+      "一边看上方的示例文字，一边用下面的按钮更改样式。\n可以更改“字体”“文字大小”“字间距（字与字之间）”“行间距（行与行之间）”“背景颜色”。\n点“保存这个样式”后，“阅读”画面就会使用这个样式。改了样式还没保存时，这个画面会显示“还没有保存”。\n点“恢复初始样式”，随时可以回到初始样式。",
+      "把文章粘贴到“要读的文章”栏里，然后点“读这段文字”。\n文章会在每句话的结尾和换行的地方分成一行一行。\n只有正在读的那一行是亮的，其他行会变淡。\n想换别的文章时，点“更换文字”。\n文章和当前的行会保留下来，下次打开也能接着读。",
+      "点“下一行”“上一行”，一行一行地移动。点某一行，就能从那里开始读。\n点“🔊 朗读”，会从当前行开始出声朗读，读完一行后自动进入下一行。\n点“停止”，声音就会停下。\n在无法朗读的设备上，会显示“这台设备无法朗读”。",
+      "在“阅读”画面下方的“休息提醒”中，可以从“无”“5分钟”“10分钟”“15分钟”“20分钟”里选择。\n到了设定的时间，画面上方会出现“休息一下”的横条，并用轻轻的声音提醒（有些手机也会振动）。\n点“继续”，会从头重新计时。\n不用着急。",
+      "粘贴的文字和选好的样式，都只留在这台设备里，不会发送到任何地方。\n不过，当“🔊 朗读”旁边有 ☁ 时，表示联网语音，朗读的文字可能会发送给提供语音的公司。\n换到新手机时，请在“设置”里点“导出”保存文件，再在新手机上点“导入”。",
+      "在“设置”里，每点一次“文字大小”的按钮，画面文字就会在“普通”“大”“特大”之间切换。\n在“颜色”里，可以从“绿色”“浅蓝色”“白色”“黑色”中选择画面颜色。\n要读的文章的样式，在“对比”里更改。\n在“设置”的“使用方法”里点“再看一次”，就能再次查看这个说明。"
+    ]
   }
 });
 /* ---- /zh ---- */
@@ -1966,6 +2248,32 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakOff": "تم إيقاف تذكير الاستراحة",
       "profileHint": "يمكنك تغيير الشكل من شاشة «المقارنة»."
     }
+  },
+  "guide": {
+    "title": "طريقة الاستخدام",
+    "step": "{n} من {m}",
+    "start": "ابدأ",
+    "again": "عرض مرة أخرى",
+    "heads": [
+      "مرحبًا بك في طاولة قراءة وكتابة",
+      "أول ما تفعله",
+      "شاشة «المقارنة»",
+      "لصق نص (شاشة «القراءة»)",
+      "القراءة سطرًا بعد سطر (شاشة «القراءة»)",
+      "تذكير بالاستراحة",
+      "أين يُحفظ كل شيء، وتغيير الهاتف",
+      "لجعل الشاشة أسهل في الرؤية"
+    ],
+    "bodies": [
+      "هذا التطبيق أداة لقراءة النص سطرًا بعد سطر، بالشكل الذي يسهل عليك قراءته.\nتختار بنفسك نوع الخط والمسافات والخلفية والحجم، وتحفظها في «ملف القراءة الشخصي».\nفي النص الذي تلصقه، يُبرَز فقط السطر الذي تقرؤه الآن.\nويمكنك أيضًا لصق نص كتبته بنفسك والاستماع إليه لمراجعته.",
+      "أولًا، اضغط «المقارنة» في الأسفل واختر شكلًا يسهل عليك قراءته.\nثم اضغط «حفظ هذا الشكل».\nبعد ذلك، اضغط «القراءة» في الأسفل والصق النص الذي تريد قراءته.\nزرّا «المقارنة» و«القراءة» في الشاشة الرئيسية يفتحان الشاشتين نفسيهما.\nوحتى إن لم تختر شيئًا، يمكنك القراءة بالشكل الأول (المسافة بين الأسطر 2.0، خلفية كريمية).",
+      "انظر إلى نص التجربة في الأعلى وأنت تغيّر الشكل بالأزرار التي تحته.\nيمكنك تغيير «نوع الخط» و«حجم النص» و«المسافة بين الحروف» و«المسافة بين الأسطر» و«لون الخلفية».\nعندما تضغط «حفظ هذا الشكل»، تستخدم شاشة «القراءة» هذا الشكل. وما دام هناك تغيير لم يُحفظ، تظهر في هذه الشاشة عبارة «لم يُحفظ بعد».\nوبالضغط على «العودة إلى الشكل الأول» ترجع إلى الشكل الأول في أي وقت.",
+      "الصق النص في خانة «النص الذي تريد قراءته» ثم اضغط «قراءة هذا النص».\nيُقسَّم النص إلى أسطر عند نهاية كل جملة وعند كل سطر جديد.\nالسطر الذي تقرؤه الآن وحده يكون واضحًا، والأسطر الأخرى باهتة.\nلقراءة نص آخر، اضغط «تغيير النص».\nيبقى النص والسطر الحالي محفوظين، فتستطيع في المرة القادمة أن تكمل من حيث توقفت.",
+      "اضغط «التالي» و«السابق» للتنقل سطرًا بعد سطر. واضغط على سطر لتبدأ القراءة منه.\nاضغط «🔊 قراءة صوتية» لتسمع النص من السطر الحالي، وعند انتهاء السطر يُقرأ السطر التالي.\nاضغط «إيقاف» لإيقاف الصوت.\nعلى الأجهزة التي لا تستطيع القراءة الصوتية تظهر عبارة «القراءة الصوتية غير متاحة على هذا الجهاز».",
+      "من «تذكير بالاستراحة» في شاشة «القراءة»، اختر «بدون» أو «5 دقائق» أو «10 دقائق» أو «15 دقيقة» أو «20 دقيقة».\nعندما يحين الوقت، يظهر في أعلى الشاشة شريط «استراحة قصيرة» مع صوت خفيف (وبعض الهواتف تهتز أيضًا).\nاضغط «متابعة» ليبدأ حساب الوقت من جديد.\nلا داعي للاستعجال.",
+      "النص الذي تلصقه والشكل الذي تختاره يبقيان على هذا الجهاز فقط. لا يُرسل شيء إلى أي مكان.\nلكن عندما تظهر العلامة ☁ على «🔊 قراءة صوتية»، فهذا صوت عبر الإنترنت، وقد يُرسَل النص الذي تتم قراءته إلى الشركة التي توفّر الصوت.\nعند الانتقال إلى هاتف جديد، اضغط «تصدير» في «الإعدادات» لحفظ ملف، ثم اضغط «استيراد» على الهاتف الجديد.",
+      "في «الإعدادات»، كل ضغطة على زر «حجم النص» تغيّر النص إلى «عادي» أو «كبير» أو «كبير جدًا».\nومن «اللون» اختر «أخضر» أو «أزرق فاتح» أو «أبيض» أو «أسود».\nأما شكل النص الذي تقرؤه فيُغيَّر من «المقارنة».\nلرؤية هذا الدليل مرة أخرى، اضغط «عرض مرة أخرى» بجانب «طريقة الاستخدام» في «الإعدادات»."
+    ]
   }
 });
 /* ---- /ar ---- */
