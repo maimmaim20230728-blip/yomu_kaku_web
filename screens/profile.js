@@ -42,7 +42,8 @@
     return out;
   }
   function load(api){ return sanitize(api.getExtra('profile', null)); }
-  function save(api, p){ var s = sanitize(p); api.setExtra('profile', s); return s; }
+  /* 保存できなかった(容量いっぱい等)ときは null(呼び出し側で知らせる・2026-10-30) */
+  function save(api, p){ var s = sanitize(p); return (api.setExtra('profile', s) === false) ? null : s; }
 
   /* 要素に形を当てる(inline style。プレビューにも読む画面にも同じ関数を使う) */
   function apply(elm, p){

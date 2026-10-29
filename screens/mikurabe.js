@@ -91,9 +91,9 @@
       saveBtn.type = 'button'; saveBtn.id = 'mk-save';
       saveBtn.textContent = api.T('screen.mikurabe.save');
       api.Tap.bind(saveBtn, function(){
-        P.save(api, draft);
+        var ok = P.save(api, draft);
         refresh();
-        api.toast(api.T('screen.mikurabe.saved'));
+        api.toast(ok ? api.T('screen.mikurabe.saved') : api.T('common.storageFull'));   /* 保存できなければ「ほぞんしました」を出さない(2026-10-30) */
       });
       btns.appendChild(saveBtn);
       c.appendChild(btns);
@@ -104,9 +104,9 @@
       resetBtn.textContent = api.T('screen.mikurabe.reset');
       api.Tap.bind(resetBtn, function(){
         draft = P.sanitize(P.DEFAULT);
-        P.save(api, draft);
+        var ok = P.save(api, draft);
         refresh();
-        api.toast(api.T('screen.mikurabe.resetDone'));
+        api.toast(ok ? api.T('screen.mikurabe.resetDone') : api.T('common.storageFull'));
       });
       btns2.appendChild(resetBtn);
       c.appendChild(btns2);

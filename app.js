@@ -9,7 +9,7 @@
      変えたら README の「シェルの変更点」に書く */
 (function(){
 
-var VER = '0.3.8';               // 🔴 更新のたびに上げる(build.gradle の versionName / sw.js の CACHE と一緒に)
+var VER = '0.3.9';               // 🔴 更新のたびに上げる(build.gradle の versionName / sw.js の CACHE と一緒に)
 var APP_KEY = 'yomu_kaku';        // バックアップの識別(別アプリのファイルを読まない)
 var LS = 'yomu.';
 var LS_PREF = LS + 'pref.v1';
@@ -46,7 +46,7 @@ function sanitizePref(p){
   };
 }
 var pref = sanitizePref(loadJSON(LS_PREF));
-function savePref(){ saveJSON(LS_PREF, pref); }
+function savePref(){ return saveJSON(LS_PREF, pref); }
 function next(list, cur){ return list[(list.indexOf(cur) + 1) % list.length]; }
 
 /* ---- i18n ---- */
@@ -136,6 +136,17 @@ function el(tag, cls, txt){
   if(cls) e.className = cls;
   if(txt != null) e.textContent = txt;
   return e;
+}
+/* button でない押す場所(div 等)を、Tab で届き Enter/Space で押せるようにする。押すと click を出す=Tap が拾う(2026-10-30) */
+function keyButton(e){
+  if(!e) return;
+  e.setAttribute('role', 'button');
+  e.setAttribute('tabindex', '0');
+  e.addEventListener('keydown', function(ev){
+    if(ev.key !== 'Enter' && ev.key !== ' ' && ev.key !== 'Spacebar') return;
+    ev.preventDefault();
+    e.click();
+  });
 }
 
 /* ---- 読み上げ(任意。Play版のWebViewはWeb Speech API非対応なのでネイティブへ橋渡し) ----
@@ -244,7 +255,14 @@ function screenApi(){
     save: function(k, v){ return saveJSON(LS + k, v); },   // false=容量オーバー等(呼び出し側で通知して取消)
     remove: function(k){ removeKey(LS + k); },
     getExtra: function(k, d){ return (pref.extra[k] === undefined) ? d : pref.extra[k]; },
-    setExtra: function(k, v){ pref.extra[k] = v; savePref(); },
+    /* 保存できなければ(容量いっぱい等)元の値に戻して false(画面側で「ほぞんしました」を出さない・2026-10-30) */
+    setExtra: function(k, v){
+      var had = Object.prototype.hasOwnProperty.call(pref.extra, k), old = pref.extra[k];
+      pref.extra[k] = v;
+      if(savePref()) return true;
+      if(had) pref.extra[k] = old; else delete pref.extra[k];
+      return false;
+    },
     speak: speak, stopSpeak: stopSpeak, canSpeak: canSpeak, voiceInfo: voiceInfo, onVoicesChanged: onVoicesChanged, vibrate: vibrate,
     lang: pref.lang,
     rtl: RTL_LANGS.indexOf(pref.lang) >= 0,
@@ -272,6 +290,7 @@ function renderScreen(id){
 }
 function showScreen(id, how){
   noteBack(current, id, how);   // 戻るボタンの来た道(2026-09-29)
+  if(id !== current) stopSpeak();   // 別の画面へ移ったら読み上げを止める(いま読んでいる1行も・2026-10-30)
   current = id;
   var secs = document.querySelectorAll('.screen');
   for(var i = 0; i < secs.length; i++){
@@ -634,6 +653,7 @@ function init(){
     (function(b){ Tap.bind(b, function(){ showScreen(b.getAttribute('data-scr'), 'tab'); }); })(navs[i]);
   }
   Tap.bind($('hd-title'), function(){ showScreen('home'); });   // 名前タップ=いつでもホームへ
+  keyButton($('hd-title'));                                      // キーボード・スイッチでも届く(2026-10-30)
 
   Tap.bind($('btn-fs'), function(){ pref.fs = (pref.fs + 1) % 3; applyBodyClass(); savePref(); applyI18n(); });
   Tap.bind($('btn-theme'), function(){ pref.theme = next(THEMES, pref.theme); applyTheme(); savePref(); applyI18n(); });

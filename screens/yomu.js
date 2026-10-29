@@ -242,11 +242,12 @@
           b.textContent = names[k];
           api.Tap.bind(b, function(){
             breakMin = BREAK_MINS[k];
-            api.setExtra('breakMin', breakMin);
+            var saved = api.setExtra('breakMin', breakMin) !== false;
             refreshChips();
             hideBand();
             startBreak();
-            api.toast(breakMin ? api.T('screen.yomu.breakSet').replace('{m}', names[k]) : api.T('screen.yomu.breakOff'));
+            if(!saved) api.toast(api.T('common.storageFull'));   /* 保存できなかった(この画面のあいだだけ効く)・2026-10-30 */
+            else api.toast(breakMin ?api.T('screen.yomu.breakSet').replace('{m}', names[k]) : api.T('screen.yomu.breakOff'));
           });
           chipEls.push(b);
           chips.appendChild(b);
