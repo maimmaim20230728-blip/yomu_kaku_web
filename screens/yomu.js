@@ -124,7 +124,14 @@
       ta.setAttribute('dir', 'auto');   /* 貼り付け欄も UI の言語(ar=RTL)でなく文の向きに従う(日本語の「。」が先頭に回らない) */
       ta.rows = 8;
       ta.placeholder = api.T('screen.yomu.placeholder');
-      ta.value = text;
+      /* 打っただけ・貼っただけの下書きは、言語切替や画面の行き来で描き直されても消さない */
+      var draft = api.load('draft', null);
+      ta.value = (typeof draft === 'string' && draft !== '') ? draft : text;
+      var draftTimer = null;
+      ta.addEventListener('input', function(){
+        if(draftTimer) clearTimeout(draftTimer);
+        draftTimer = setTimeout(function(){ draftTimer = null; try{ api.save('draft', ta.value); }catch(e){} }, 400);
+      });
       field.appendChild(ta);
       paste.appendChild(field);
       paste.appendChild(api.el('p', 'hint', api.T('screen.yomu.pasteHint')));
@@ -138,7 +145,11 @@
         if(!ls.length){ api.toast(api.T('screen.yomu.emptyText')); return; }
         text = t; lines = ls; idx = 0; reading = true; fromPaste = true;
         voiceLang = textLang(text, api.lang);
-        if(persist() && api.markSaved) api.markSaved();   /* 保存できた=戻るボタンで「まだ ほぞんしていません」を出さない */
+        if(draftTimer){ clearTimeout(draftTimer); draftTimer = null; }
+        if(persist()){
+          try{ api.save('draft', ''); }catch(e){}   /* 読む文として保存できたので下書きは消す */
+          if(api.markSaved) api.markSaved();   /* 保存できた=戻るボタンで「まだ ほぞんしていません」を出さない */
+        }
         show();
         refreshVoiceMark();
         showCur(false);   /* 貼り付け欄が長い表示に入れ替わったとき、ブラウザのスクロール位置の補正で文の終わりへ飛ばないよう、1行目を画面に入れる */
