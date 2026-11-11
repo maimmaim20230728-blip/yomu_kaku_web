@@ -40,6 +40,10 @@ var ja = {
     bkExport:'かきだす', bkImport:'よみこむ',
     exported:'かきだしました ✓', imported:'よみこみました ✓', importFail:'よみこめませんでした',
     importConfirm:'いまの ないようは、ファイルの ないように おきかわります。よみこみますか?',
+    /* ほぞんされているものの一覧(せっていと、よみこむ前の確かめの窓・2026-11-11) */
+    sumTitle:'この端末に ほぞんされているもの', sumFile:'ファイルの 中身', sumNow:'いまの 端末の中身(おきかわります)',
+    sumShape:'読み方の形: {v}', sumText:'はりつけた 文: {v}', sumBreak:'ひとやすみの めやす: {v}',
+    sumNone:'なし', sumHas:'ほぞんあり', sumChars:'{n} 字', sumMin:'{n}分',
     note:'書いたことは すべて この端末の中だけに ほぞんされます。どこにも 送られません。',
     privacy:'プライバシーポリシー',
     credit:'アプリ開発：介護と支援の相談どころ そよぎ',
@@ -63,6 +67,7 @@ var ja = {
       spacing:'じかん(字と字の あいだ)', spacings:['ふつう','すこし ひろい','ひろい'],
       lh:'ぎょうかん(行と行の あいだ)', lhs:['1.6','2.0','2.4'],
       bg:'はいけいの いろ', bgs:['しろ','きなり(クリームいろ)','うすい はいいろ','くろ'],
+      dim:'まわりの 行の うすさ', dims:['つよい','ふつう','うすくしない'],
       size:'もじの大きさ', sizes:['ふつう','大きい','とても大きい'],
       save:'この形で ほぞんする',
       unsaved:'まだ ほぞんしていません',
@@ -94,7 +99,10 @@ var ja = {
       breakGo:'つづける',
       breakSet:'ひとやすみの めやすを {m} に しました',
       breakOff:'ひとやすみの めやすを なしに しました',
-      profileHint:'形は「みくらべ」で かえられます。'
+      profileHint:'形は「みくらべ」で かえられます。',
+      lenHint:'とても 長い 文は、数万字までが めやすです。',
+      endMark:'ここまでです', restart:'はじめから よむ',
+      rateLabel:'よみあげの はやさ', rateOpts:['ゆっくり','ふつう','はやい']
     }
   },
   /* はじめての つかいかた(app.js openGuide・初回に必ず出す・2026-09-30)。heads と bodies は同じ数。
@@ -154,6 +162,9 @@ var en = {
     bkExport:'Export', bkImport:'Import',
     exported:'Exported ✓', imported:'Imported ✓', importFail:'Could not import',
     importConfirm:'Your current entries will be replaced with the file\'s contents. Import it?',
+    sumTitle:'Saved on this device', sumFile:'Contents of the file', sumNow:'Contents of this device now (will be replaced)',
+    sumShape:'Reading shape: {v}', sumText:'Pasted text: {v}', sumBreak:'Break reminder: {v}',
+    sumNone:'None', sumHas:'Saved', sumChars:'{n} characters', sumMin:'{n} min',
     note:'Everything you write is stored only on this device. Nothing is sent anywhere.',
     privacy:'Privacy policy',
     credit:'Developed by SOYOGI, a care and support consultation service',
@@ -176,6 +187,7 @@ var en = {
       spacing:'Letter spacing', spacings:['Normal','A little wide','Wide'],
       lh:'Line spacing', lhs:['1.6','2.0','2.4'],
       bg:'Background', bgs:['White','Cream','Light gray','Black'],
+      dim:'How pale the other lines are', dims:['Strong','Normal','Not pale'],
       size:'Text size', sizes:['Normal','Large','Very large'],
       save:'Save this shape',
       unsaved:'Not saved yet',
@@ -206,7 +218,10 @@ var en = {
       breakGo:'Continue',
       breakSet:'Break reminder set to {m}',
       breakOff:'Break reminder turned off',
-      profileHint:'You can change the shape on the Compare screen.'
+      profileHint:'You can change the shape on the Compare screen.',
+      lenHint:'A very long text works best up to a few tens of thousands of characters.',
+      endMark:'That is the end', restart:'Read again from the start',
+      rateLabel:'Reading speed', rateOpts:['Slow','Normal','Fast']
     }
   },
   guide: {
@@ -323,7 +338,17 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "Alles, was Sie schreiben, wird nur auf diesem Gerät gespeichert. Nichts wird irgendwohin gesendet.",
     "privacy": "Datenschutzerklärung",
     "credit": "Entwickelt von SOYOGI, einer Beratungsstelle für Pflege und Unterstützung",
-    "fontCredit": "Schrift: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Den vollständigen Lizenztext finden Sie in der App unter fonts/OFL.txt."
+    "fontCredit": "Schrift: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Den vollständigen Lizenztext finden Sie in der App unter fonts/OFL.txt.",
+    "sumTitle": "Auf diesem Gerät gespeichert",
+    "sumFile": "Inhalt der Datei",
+    "sumNow": "Inhalt dieses Geräts jetzt (wird ersetzt)",
+    "sumShape": "Leseprofil: {v}",
+    "sumText": "Eingefügter Text: {v}",
+    "sumBreak": "Pausen-Erinnerung: {v}",
+    "sumNone": "Nicht vorhanden",
+    "sumHas": "Gespeichert",
+    "sumChars": "{n} Zeichen",
+    "sumMin": "{n} Min."
   },
   "screen": {
     "home": {
@@ -378,7 +403,13 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "Zurücksetzen",
       "saved": "Leseprofil gespeichert ✓",
       "resetDone": "Auf die erste Darstellung zurückgesetzt",
-      "profile": "Leseprofil"
+      "profile": "Leseprofil",
+      "dim": "Wie blass die anderen Zeilen sind",
+      "dims": [
+        "Stark",
+        "Normal",
+        "Nicht blass"
+      ]
     },
     "yomu": {
       "title": "Lesen",
@@ -410,7 +441,16 @@ TBL.de = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "Weiter",
       "breakSet": "Pausen-Erinnerung auf {m} gestellt",
       "breakOff": "Pausen-Erinnerung ausgeschaltet",
-      "profileHint": "Die Darstellung können Sie unter „Vergleichen“ ändern."
+      "profileHint": "Die Darstellung können Sie unter „Vergleichen“ ändern.",
+      "lenHint": "Sehr lange Texte funktionieren am besten bis zu einigen zehntausend Zeichen.",
+      "endMark": "Das ist das Ende",
+      "restart": "Noch einmal von vorn lesen",
+      "rateLabel": "Lesegeschwindigkeit",
+      "rateOpts": [
+        "Langsam",
+        "Normal",
+        "Schnell"
+      ]
     }
   },
   "guide": {
@@ -527,7 +567,17 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "Tout ce que vous écrivez est enregistré uniquement sur cet appareil. Rien n'est envoyé ailleurs.",
     "privacy": "Politique de confidentialité",
     "credit": "Application développée par SOYOGI, service de conseil en soins et en accompagnement",
-    "fontCredit": "Police : BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Le texte complet de la licence se trouve dans l'application, dans fonts/OFL.txt."
+    "fontCredit": "Police : BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Le texte complet de la licence se trouve dans l'application, dans fonts/OFL.txt.",
+    "sumTitle": "Enregistré sur cet appareil",
+    "sumFile": "Contenu du fichier",
+    "sumNow": "Contenu actuel de cet appareil (sera remplacé)",
+    "sumShape": "Profil de lecture : {v}",
+    "sumText": "Texte collé : {v}",
+    "sumBreak": "Rappel de pause : {v}",
+    "sumNone": "Aucun",
+    "sumHas": "Enregistré",
+    "sumChars": "{n} caractères",
+    "sumMin": "{n} min"
   },
   "screen": {
     "home": {
@@ -582,7 +632,13 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "Revenir à l'affichage de départ",
       "saved": "Profil de lecture enregistré ✓",
       "resetDone": "Affichage de départ rétabli",
-      "profile": "Profil de lecture"
+      "profile": "Profil de lecture",
+      "dim": "Intensité de l'atténuation des autres lignes",
+      "dims": [
+        "Forte",
+        "Normale",
+        "Pas d'atténuation"
+      ]
     },
     "yomu": {
       "title": "Lire",
@@ -614,7 +670,16 @@ TBL.fr = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "Continuer",
       "breakSet": "Rappel de pause réglé sur {m}",
       "breakOff": "Rappel de pause désactivé",
-      "profileHint": "Vous pouvez changer l'affichage sur l'écran \"Comparer\"."
+      "profileHint": "Vous pouvez changer l'affichage sur l'écran \"Comparer\".",
+      "lenHint": "Pour un texte très long, il vaut mieux ne pas dépasser quelques dizaines de milliers de caractères.",
+      "endMark": "C'est la fin",
+      "restart": "Relire depuis le début",
+      "rateLabel": "Vitesse de lecture",
+      "rateOpts": [
+        "Lente",
+        "Normale",
+        "Rapide"
+      ]
     }
   },
   "guide": {
@@ -731,7 +796,17 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "Todo lo que se escribe se guarda solo en este dispositivo. No se envía a ningún lugar.",
     "privacy": "Política de privacidad",
     "credit": "App desarrollada por SOYOGI, servicio de consulta sobre cuidados y apoyo",
-    "fontCredit": "Tipo de letra: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. El texto completo de la licencia está en fonts/OFL.txt, dentro de la app."
+    "fontCredit": "Tipo de letra: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. El texto completo de la licencia está en fonts/OFL.txt, dentro de la app.",
+    "sumTitle": "Guardado en este dispositivo",
+    "sumFile": "Contenido del archivo",
+    "sumNow": "Contenido actual de este dispositivo (se sustituirá)",
+    "sumShape": "Perfil de lectura: {v}",
+    "sumText": "Texto pegado: {v}",
+    "sumBreak": "Aviso de descanso: {v}",
+    "sumNone": "Ninguno",
+    "sumHas": "Guardado",
+    "sumChars": "{n} caracteres",
+    "sumMin": "{n} min"
   },
   "screen": {
     "home": {
@@ -786,7 +861,13 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "Volver a la forma inicial",
       "saved": "Perfil de lectura guardado ✓",
       "resetDone": "Forma inicial restablecida",
-      "profile": "Perfil de lectura"
+      "profile": "Perfil de lectura",
+      "dim": "Cuánto se atenúan las demás líneas",
+      "dims": [
+        "Mucho",
+        "Normal",
+        "Sin atenuar"
+      ]
     },
     "yomu": {
       "title": "Leer",
@@ -818,7 +899,16 @@ TBL.es = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "Continuar",
       "breakSet": "Aviso de descanso: {m}",
       "breakOff": "Aviso de descanso desactivado",
-      "profileHint": "La forma se puede cambiar en la pantalla \"Comparar\"."
+      "profileHint": "La forma se puede cambiar en la pantalla \"Comparar\".",
+      "lenHint": "Con textos muy largos, lo mejor es no pasar de unas decenas de miles de caracteres.",
+      "endMark": "Este es el final",
+      "restart": "Leer de nuevo desde el principio",
+      "rateLabel": "Velocidad de lectura",
+      "rateOpts": [
+        "Lenta",
+        "Normal",
+        "Rápida"
+      ]
     }
   },
   "guide": {
@@ -935,7 +1025,17 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "Tutto ciò che scrive viene salvato solo su questo dispositivo. Non viene inviato da nessuna parte.",
     "privacy": "Informativa sulla privacy",
     "credit": "App sviluppata da SOYOGI, servizio di consulenza per l'assistenza e il sostegno",
-    "fontCredit": "Carattere: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Il testo completo della licenza si trova nell'app, in fonts/OFL.txt."
+    "fontCredit": "Carattere: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Il testo completo della licenza si trova nell'app, in fonts/OFL.txt.",
+    "sumTitle": "Salvato su questo dispositivo",
+    "sumFile": "Contenuto del file",
+    "sumNow": "Contenuto attuale di questo dispositivo (verrà sostituito)",
+    "sumShape": "Profilo di lettura: {v}",
+    "sumText": "Testo incollato: {v}",
+    "sumBreak": "Promemoria per la pausa: {v}",
+    "sumNone": "Nessuno",
+    "sumHas": "Salvato",
+    "sumChars": "{n} caratteri",
+    "sumMin": "{n} min"
   },
   "screen": {
     "home": {
@@ -990,7 +1090,13 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "Torna alla forma iniziale",
       "saved": "Profilo di lettura salvato ✓",
       "resetDone": "Forma iniziale ripristinata",
-      "profile": "Profilo di lettura"
+      "profile": "Profilo di lettura",
+      "dim": "Quanto sono sbiadite le altre righe",
+      "dims": [
+        "Molto",
+        "Normale",
+        "Non sbiadite"
+      ]
     },
     "yomu": {
       "title": "Leggi",
@@ -1022,7 +1128,16 @@ TBL.it = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "Continua",
       "breakSet": "Promemoria per la pausa: {m}",
       "breakOff": "Promemoria per la pausa disattivato",
-      "profileHint": "Può cambiare la forma nella schermata «Confronta»."
+      "profileHint": "Può cambiare la forma nella schermata «Confronta».",
+      "lenHint": "Con testi molto lunghi, è meglio non superare qualche decina di migliaia di caratteri.",
+      "endMark": "Questa è la fine",
+      "restart": "Rileggi dall'inizio",
+      "rateLabel": "Velocità di lettura",
+      "rateOpts": [
+        "Lenta",
+        "Normale",
+        "Veloce"
+      ]
     }
   },
   "guide": {
@@ -1139,7 +1254,17 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "Tudo o que se escreve fica guardado apenas neste dispositivo. Nada é enviado para fora dele.",
     "privacy": "Política de privacidade",
     "credit": "Desenvolvido por SOYOGI, serviço de consulta sobre cuidados e apoio",
-    "fontCredit": "Tipo de letra: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. O texto completo da licença está em fonts/OFL.txt, dentro da aplicação."
+    "fontCredit": "Tipo de letra: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. O texto completo da licença está em fonts/OFL.txt, dentro da aplicação.",
+    "sumTitle": "Guardado neste dispositivo",
+    "sumFile": "Conteúdo do ficheiro",
+    "sumNow": "Conteúdo atual deste dispositivo (será substituído)",
+    "sumShape": "Perfil de leitura: {v}",
+    "sumText": "Texto colado: {v}",
+    "sumBreak": "Lembrete de pausa: {v}",
+    "sumNone": "Nenhum",
+    "sumHas": "Guardado",
+    "sumChars": "{n} caracteres",
+    "sumMin": "{n} min"
   },
   "screen": {
     "home": {
@@ -1194,7 +1319,13 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "Voltar ao formato inicial",
       "saved": "Perfil de leitura guardado ✓",
       "resetDone": "Formato inicial restaurado",
-      "profile": "Perfil de leitura"
+      "profile": "Perfil de leitura",
+      "dim": "Quão apagadas ficam as outras linhas",
+      "dims": [
+        "Muito",
+        "Normal",
+        "Sem apagar"
+      ]
     },
     "yomu": {
       "title": "Ler",
@@ -1226,7 +1357,16 @@ TBL.pt = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "Continuar",
       "breakSet": "Lembrete de pausa definido para {m}",
       "breakOff": "Lembrete de pausa desativado",
-      "profileHint": "O formato pode ser mudado em “Comparar”."
+      "profileHint": "O formato pode ser mudado em “Comparar”.",
+      "lenHint": "Para textos muito longos, o ideal é não passar de algumas dezenas de milhares de caracteres.",
+      "endMark": "Este é o fim",
+      "restart": "Ler de novo desde o início",
+      "rateLabel": "Velocidade de leitura",
+      "rateOpts": [
+        "Lenta",
+        "Normal",
+        "Rápida"
+      ]
     }
   },
   "guide": {
@@ -1343,7 +1483,17 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "Alles wat u schrijft, wordt alleen op dit apparaat bewaard. Er wordt niets verstuurd.",
     "privacy": "Privacybeleid",
     "credit": "App-ontwikkeling: SOYOGI, adviespunt voor zorg en ondersteuning",
-    "fontCredit": "Lettertype: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. De volledige licentietekst staat in de app in fonts/OFL.txt."
+    "fontCredit": "Lettertype: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. De volledige licentietekst staat in de app in fonts/OFL.txt.",
+    "sumTitle": "Opgeslagen op dit apparaat",
+    "sumFile": "Inhoud van het bestand",
+    "sumNow": "Huidige inhoud van dit apparaat (wordt vervangen)",
+    "sumShape": "Leesprofiel: {v}",
+    "sumText": "Geplakte tekst: {v}",
+    "sumBreak": "Pauzeherinnering: {v}",
+    "sumNone": "Geen",
+    "sumHas": "Opgeslagen",
+    "sumChars": "{n} tekens",
+    "sumMin": "{n} min."
   },
   "screen": {
     "home": {
@@ -1398,7 +1548,13 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "Terug naar de beginweergave",
       "saved": "Leesprofiel opgeslagen ✓",
       "resetDone": "Teruggezet naar de beginweergave",
-      "profile": "Leesprofiel"
+      "profile": "Leesprofiel",
+      "dim": "Hoe vaag de andere regels zijn",
+      "dims": [
+        "Sterk",
+        "Normaal",
+        "Niet vaag"
+      ]
     },
     "yomu": {
       "title": "Lezen",
@@ -1430,7 +1586,16 @@ TBL.nl = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "Verder",
       "breakSet": "Pauzeherinnering ingesteld op {m}",
       "breakOff": "Pauzeherinnering uitgezet",
-      "profileHint": "U kunt de weergave aanpassen bij Vergelijken."
+      "profileHint": "U kunt de weergave aanpassen bij Vergelijken.",
+      "lenHint": "Bij een heel lange tekst werkt het het best tot enkele tienduizenden tekens.",
+      "endMark": "Dit is het einde",
+      "restart": "Opnieuw vanaf het begin lezen",
+      "rateLabel": "Leessnelheid",
+      "rateOpts": [
+        "Langzaam",
+        "Normaal",
+        "Snel"
+      ]
     }
   },
   "guide": {
@@ -1547,7 +1712,17 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "Allt du skriver sparas bara på den här enheten. Inget skickas någonstans.",
     "privacy": "Integritetspolicy",
     "credit": "Appen är utvecklad av SOYOGI, en rådgivning om omsorg och stöd",
-    "fontCredit": "Typsnitt: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Hela licenstexten finns i appen i fonts/OFL.txt."
+    "fontCredit": "Typsnitt: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. Hela licenstexten finns i appen i fonts/OFL.txt.",
+    "sumTitle": "Sparat på den här enheten",
+    "sumFile": "Filens innehåll",
+    "sumNow": "Enhetens innehåll just nu (ersätts)",
+    "sumShape": "Läsprofil: {v}",
+    "sumText": "Inklistrad text: {v}",
+    "sumBreak": "Påminnelse om paus: {v}",
+    "sumNone": "Ingen",
+    "sumHas": "Sparad",
+    "sumChars": "{n} tecken",
+    "sumMin": "{n} min"
   },
   "screen": {
     "home": {
@@ -1602,7 +1777,13 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "Återställ",
       "saved": "Läsprofilen är sparad ✓",
       "resetDone": "Utseendet är återställt",
-      "profile": "Läsprofil"
+      "profile": "Läsprofil",
+      "dim": "Hur bleka de andra raderna är",
+      "dims": [
+        "Mycket",
+        "Normalt",
+        "Inte bleka"
+      ]
     },
     "yomu": {
       "title": "Läs",
@@ -1634,7 +1815,16 @@ TBL.sv = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "Fortsätt",
       "breakSet": "Påminnelse om paus: {m}",
       "breakOff": "Påminnelsen om paus är avstängd",
-      "profileHint": "Du kan ändra utseendet på skärmen ”Jämför”."
+      "profileHint": "Du kan ändra utseendet på skärmen ”Jämför”.",
+      "lenHint": "En mycket lång text fungerar bäst upp till några tiotusen tecken.",
+      "endMark": "Det här är slutet",
+      "restart": "Läs om från början",
+      "rateLabel": "Uppläsningshastighet",
+      "rateOpts": [
+        "Långsam",
+        "Normal",
+        "Snabb"
+      ]
     }
   },
   "guide": {
@@ -1751,7 +1941,17 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "쓴 내용은 모두 이 기기 안에만 저장돼요. 어디에도 보내지 않아요.",
     "privacy": "개인정보 처리방침",
     "credit": "앱 개발: 돌봄과 지원 상담소 SOYOGI",
-    "fontCredit": "글꼴: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. 라이선스 전문은 앱 안의 fonts/OFL.txt에 있어요."
+    "fontCredit": "글꼴: BIZ UDPGothic (Copyright 2022 The BIZ UDGothic Project Authors), SIL Open Font License 1.1. 라이선스 전문은 앱 안의 fonts/OFL.txt에 있어요.",
+    "sumTitle": "이 기기에 저장된 것",
+    "sumFile": "파일의 내용",
+    "sumNow": "지금 이 기기의 내용(바뀌어요)",
+    "sumShape": "읽기 프로필: {v}",
+    "sumText": "붙여 넣은 글: {v}",
+    "sumBreak": "쉬는 시간 알림: {v}",
+    "sumNone": "없음",
+    "sumHas": "저장됨",
+    "sumChars": "{n}자",
+    "sumMin": "{n}분"
   },
   "screen": {
     "home": {
@@ -1806,7 +2006,13 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "처음 모양으로 되돌리기",
       "saved": "읽기 프로필을 저장했어요 ✓",
       "resetDone": "처음 모양으로 되돌렸어요",
-      "profile": "읽기 프로필"
+      "profile": "읽기 프로필",
+      "dim": "나머지 줄을 얼마나 흐리게 할까요",
+      "dims": [
+        "많이",
+        "보통",
+        "흐리게 하지 않음"
+      ]
     },
     "yomu": {
       "title": "읽기",
@@ -1838,7 +2044,16 @@ TBL.ko = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "계속하기",
       "breakSet": "쉬는 시간 알림을 {m}으로 정했어요",
       "breakOff": "쉬는 시간 알림을 껐어요",
-      "profileHint": "모양은 '비교' 화면에서 바꿀 수 있어요."
+      "profileHint": "모양은 '비교' 화면에서 바꿀 수 있어요.",
+      "lenHint": "아주 긴 글은 수만 자까지가 알맞아요.",
+      "endMark": "여기까지예요",
+      "restart": "처음부터 다시 읽기",
+      "rateLabel": "읽어 주는 속도",
+      "rateOpts": [
+        "느리게",
+        "보통",
+        "빠르게"
+      ]
     }
   },
   "guide": {
@@ -1955,7 +2170,17 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "写下的内容全部只保存在这台设备里，不会发送到任何地方。",
     "privacy": "隐私政策",
     "credit": "应用开发：护理与支援咨询处 SOYOGI",
-    "fontCredit": "字体：BIZ UDPGothic（Copyright 2022 The BIZ UDGothic Project Authors），SIL Open Font License 1.1。许可证全文见应用内的 fonts/OFL.txt。"
+    "fontCredit": "字体：BIZ UDPGothic（Copyright 2022 The BIZ UDGothic Project Authors），SIL Open Font License 1.1。许可证全文见应用内的 fonts/OFL.txt。",
+    "sumTitle": "保存在此设备上的内容",
+    "sumFile": "文件的内容",
+    "sumNow": "此设备现有的内容（会被替换）",
+    "sumShape": "阅读偏好：{v}",
+    "sumText": "粘贴的文章：{v}",
+    "sumBreak": "休息提醒：{v}",
+    "sumNone": "无",
+    "sumHas": "已保存",
+    "sumChars": "{n}字",
+    "sumMin": "{n}分钟"
   },
   "screen": {
     "home": {
@@ -2010,7 +2235,13 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "恢复初始样式",
       "saved": "阅读偏好已保存 ✓",
       "resetDone": "已恢复初始样式",
-      "profile": "阅读偏好"
+      "profile": "阅读偏好",
+      "dim": "其他行变淡的程度",
+      "dims": [
+        "明显",
+        "普通",
+        "不变淡"
+      ]
     },
     "yomu": {
       "title": "阅读",
@@ -2042,7 +2273,16 @@ TBL.zh = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "继续",
       "breakSet": "休息提醒已设为{m}",
       "breakOff": "已关闭休息提醒",
-      "profileHint": "样式可以在“对比”中更改。"
+      "profileHint": "样式可以在“对比”中更改。",
+      "lenHint": "很长的文章，建议不超过几万字。",
+      "endMark": "到这里就读完了",
+      "restart": "从头再读",
+      "rateLabel": "朗读速度",
+      "rateOpts": [
+        "慢",
+        "普通",
+        "快"
+      ]
     }
   },
   "guide": {
@@ -2159,7 +2399,17 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
     "note": "كل ما تكتبه يُحفظ على هذا الجهاز فقط. لا يُرسل شيء إلى أي مكان.",
     "privacy": "سياسة الخصوصية",
     "credit": "تطوير التطبيق: SOYOGI، مكان للاستشارة في الرعاية والدعم",
-    "fontCredit": "الخط: BIZ UDPGothic، Copyright 2022 The BIZ UDGothic Project Authors، الترخيص: SIL Open Font License 1.1. النص الكامل للترخيص موجود داخل التطبيق في fonts/OFL.txt."
+    "fontCredit": "الخط: BIZ UDPGothic، Copyright 2022 The BIZ UDGothic Project Authors، الترخيص: SIL Open Font License 1.1. النص الكامل للترخيص موجود داخل التطبيق في fonts/OFL.txt.",
+    "sumTitle": "المحفوظ على هذا الجهاز",
+    "sumFile": "محتوى الملف",
+    "sumNow": "محتوى هذا الجهاز الآن (سيُستبدل)",
+    "sumShape": "ملف القراءة الشخصي: {v}",
+    "sumText": "النص الملصق: {v}",
+    "sumBreak": "تذكير بالاستراحة: {v}",
+    "sumNone": "لا شيء",
+    "sumHas": "محفوظ",
+    "sumChars": "{n} حرفًا",
+    "sumMin": "{n} دقيقة"
   },
   "screen": {
     "home": {
@@ -2214,7 +2464,13 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "reset": "العودة إلى الشكل الأول",
       "saved": "تم حفظ ملف القراءة الشخصي ✓",
       "resetDone": "تمت العودة إلى الشكل الأول",
-      "profile": "ملف القراءة الشخصي"
+      "profile": "ملف القراءة الشخصي",
+      "dim": "مدى خفوت الأسطر الأخرى",
+      "dims": [
+        "قوي",
+        "عادي",
+        "بدون خفوت"
+      ]
     },
     "yomu": {
       "title": "القراءة",
@@ -2246,7 +2502,16 @@ TBL.ar = mergeDeep(JSON.parse(JSON.stringify(en)), {
       "breakGo": "متابعة",
       "breakSet": "تم ضبط تذكير الاستراحة على {m}",
       "breakOff": "تم إيقاف تذكير الاستراحة",
-      "profileHint": "يمكنك تغيير الشكل من شاشة «المقارنة»."
+      "profileHint": "يمكنك تغيير الشكل من شاشة «المقارنة».",
+      "lenHint": "النصوص الطويلة جدًا تعمل بأفضل شكل حتى بضعة عشرات الآلاف من الحروف.",
+      "endMark": "هذه هي النهاية",
+      "restart": "القراءة من البداية",
+      "rateLabel": "سرعة القراءة الصوتية",
+      "rateOpts": [
+        "بطيئة",
+        "عادية",
+        "سريعة"
+      ]
     }
   },
   "guide": {

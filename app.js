@@ -9,7 +9,7 @@
      変えたら README の「シェルの変更点」に書く */
 (function(){
 
-var VER = '0.3.11';               // 🔴 更新のたびに上げる(build.gradle の versionName / sw.js の CACHE と一緒に)
+var VER = '0.3.12';               // 🔴 更新のたびに上げる(build.gradle の versionName / sw.js の CACHE と一緒に)
 var APP_KEY = 'yomu_kaku';        // バックアップの識別(別アプリのファイルを読まない)
 var LS = 'yomu.';
 var LS_PREF = LS + 'pref.v1';
@@ -82,6 +82,7 @@ function applyI18n(){
   if($('btn-bgm'))   $('btn-bgm').textContent   = T('set.bgms')[BGMS.indexOf(pref.bgm)];
   if($('btn-sound')) $('btn-sound').textContent = pref.sound ? T('set.on') : T('set.off');
   if($('about-ver')) $('about-ver').textContent = 'v' + VER;
+  refreshBkSum();
   document.title = T('app.name');
   fitTitle();
   if(current !== 'set') renderScreen(current);   // 表示中の画面も訳し直す
@@ -301,6 +302,7 @@ function showScreen(id, how){
     navs[j].classList.toggle('active', navs[j].getAttribute('data-scr') === id);
   }
   if(id !== 'set') renderScreen(id);
+  else refreshBkSum();   // せっていを開くたびに、ほぞんされているものの一覧を最新にする
   try{ if($('main')) $('main').scrollTop = 0; }catch(_){}
 }
 
@@ -574,7 +576,11 @@ function exportBackup(){
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = fname;
+  a.style.display = 'none';
+  /* 古い Firefox などは、DOM に入っていない a 要素の click() では保存されないことがある。body に入れて押してから外す(2026-11-11) */
+  try{ document.body.appendChild(a); }catch(_){}
   a.click();
+  try{ if(a.parentNode) a.parentNode.removeChild(a); }catch(_){}
   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 3000);
   toast(T('set.exported'));
 }
@@ -605,7 +611,10 @@ function importBackup(e){
       if(!d || d.app !== APP_KEY) throw new Error('different app');
     }catch(err){ toast(T('set.importFail')); return; }
     /* 2. 置き換える前に確かめる。やめたら何も変えない */
-    askConfirm(T('set.importConfirm'), function(ok){
+    var msg = T('set.sumFile') + '\n' + summarize(d.pref, d.data) +
+      '\n\n' + T('set.sumNow') + '\n' + nowSummary() +
+      '\n\n' + T('set.importConfirm');   /* 一覧のあとに問いを置く(はい/いいえの直前) */
+    askConfirm(msg, function(ok){
       if(!ok) return;
       /* 3. 丸ごと入れ替え: ファイルに無い このアプリの保存キー(yomu.)は消してから、ファイルの中身を書く。
             ほかのアプリのキーには触らない。途中で書けなかったら(容量など)元に戻す */
@@ -633,6 +642,25 @@ function importBackup(e){
   };
   r.readAsText(f);
   e.target.value = '';
+}
+
+/* ---- ほぞんされているものの一覧(せっていの「きしゅへんこう」と、よみこむ前の確かめの窓・2026-11-11) ----
+   読み方の形(あり/なし)・はりつけた文(字数)・ひとやすみの めやす。pr=pref のようなもの({extra:{...}})・dt={read:{text}} のようなもの */
+function summarize(pr, dt){
+  var ex = (pr && pr.extra && typeof pr.extra === 'object') ? pr.extra : {};
+  var rd = (dt && typeof dt === 'object') ? dt.read : null;
+  var len = (rd && typeof rd.text === 'string') ? rd.text.length : 0;
+  var bm = Number(ex.breakMin) || 0;
+  return [
+    T('set.sumShape').replace('{v}', ex.profile ? T('set.sumHas') : T('set.sumNone')),
+    T('set.sumText').replace('{v}', len ? T('set.sumChars').replace('{n}', String(len)) : T('set.sumNone')),
+    T('set.sumBreak').replace('{v}', bm > 0 ? T('set.sumMin').replace('{n}', String(bm)) : T('set.sumNone'))
+  ].join('\n');
+}
+function nowSummary(){ return summarize(pref, { read: loadJSON(LS + 'read') }); }
+function refreshBkSum(){
+  var e = $('bk-sum');
+  if(e) e.textContent = T('set.sumTitle') + '\n' + nowSummary();
 }
 
 /* ---- トースト ---- */

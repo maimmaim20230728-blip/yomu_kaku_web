@@ -6,7 +6,9 @@
      声の言語は貼った文から決める=textLang。api.canSpeak() が false なら読み上げボタンを出さず
      「この端末では読み上げできません」。ネットの声のときは ☁ と一言)・とめる。操作ボタンは下に固定(sticky)
    ・休憩の合図: 本人が決めた分数(なし/5/10/15/20)で、読む画面の上に「ひとやすみ」の帯(Sound.tone 1回 + 振動)
-   ・貼った文と今の行は api.save('read') で端末内に残す(容量オーバーは通知して取消)
+   ・貼った文は api.save('read')、今の行の位置は api.save('readIdx') で端末内に残す(行を進めるたびに書くのは位置だけ。
+     行の表示は文を貼ったときに1回だけ作り、つぎ/まえ/読み上げの送りは今の行のしるしだけ付け替える・2026-11-11)
+   ・読み上げの速さ(ゆっくり/ふつう/はやい)は api.setExtra('speechRate')。最後の行を読み上げ終えると「ここまでです」と「はじめから よむ」
    ・操作は全部 api.Tap.bind(click禁止)。textarea だけネイティブ入力。左寄せ・両端そろえなし。急かさない */
 (function(){
 
@@ -28,6 +30,8 @@
     ' padding:12px 14px; margin:0 0 12px; text-align:center; }' +
     '#scr-yomu .ym-band .ym-band-h{ font-size:1.3em; font-weight:800; margin:0 0 4px; }' +
     '#scr-yomu .ym-band .btn{ margin-top:8px; background:#fff; color:#1a1a1a; border-color:#fff; }' +
+    '#scr-yomu .ym-end{ margin:0 0 12px; text-align:center; }' +
+    '#scr-yomu .ym-end .ym-end-msg{ font-weight:700; margin:0 0 6px; }' +
     '#scr-yomu .ym-break{ margin:14px 0 4px; }' +
     '#scr-yomu .ym-break .mk-label{ font-weight:700; margin:0 0 6px; }';
   var injected = false;
@@ -41,6 +45,7 @@
   }
 
   var BREAK_MINS = [0, 5, 10, 15, 20];   /* 0=なし。並びは i18n の breakOpts と同じ */
+  var RATES = [0.7, 1, 1.3];              /* 読み上げの速さ(ゆっくり/ふつう/はやい)。並びは i18n の rateOpts と同じ・保存するのは番号(1=ふつう) */
   var timer = 0;                          /* 休憩タイマー(画面をまたいで1本だけ) */
   var gen = 0;                            /* 描画の世代。言語切替などで描き直したら、前の描画の読み上げ(onend)は続けない */
   var live = null;                        /* いまの描画の 戻るボタン(Play版)の受け口 { gen, back() } */
@@ -49,7 +54,9 @@
      ・区切りのすぐ後の閉じかっこ・引用符(」』）)】〕]"'”’)は同じ行に入れる(」や ）だけで始まる行を作らない)
      ・英文の「. 」は、行頭の番号(1. 2.)と略語(Mr. Dr. e.g. など)の後では切らない。
        略語は大文字小文字を区別する(文末の「no.」「dr.」で切れなくならないように)。「No.」は後ろが数字のときだけ(No. 5) */
-  var ABBR = /(?:^|[\s(（「『"'“‘])(?:Mr|Mrs|Ms|Dr|St|vs|etc|e\.g|i\.e|E\.g|I\.e)$/;
+  var ABBR = /(?:^|[\s(（「『"'“‘])(?:Mr|Mrs|Ms|Dr|St|vs|etc|e\.g|i\.e|E\.g|I\.e|Prof|Jr|Sr|Inc|Ltd|Co|Corp|Mt|Gen|Capt|Lt|Sgt|Rev|Hon|Fig|Vol|cf|al|approx|Ph\.D)$/;
+  /* 大文字+ピリオドが続く頭文字(A.B. / U.S. / J.R.R.)の最後のピリオドでも切らない(2026-11-11) */
+  var INITIALS = /(?:^|[\s(（「『"'“‘])(?:[A-Z]\.)+[A-Z]$/;
   var NO_NUM = /(?:^|[\s(（「『"'“‘])No$/;
   var NUM_HEAD = /(?:^|\n)[ \t]*\d+$/;
   function splitLines(text){
@@ -57,7 +64,7 @@
     String(text || '').replace(/([.!?؟])([」』）)】〕\]"'”’]*)\s+/g, function(all, p, close, off, str){
       if(p === '.' && !close){
         var before = str.slice(Math.max(0, off - 12), off);
-        if(ABBR.test(before) || NUM_HEAD.test(before)) return all;
+        if(ABBR.test(before) || INITIALS.test(before) || NUM_HEAD.test(before)) return all;
         if(NO_NUM.test(before) && /\d/.test(str.charAt(off + all.length))) return all;
       }
       return p + close + '\n';
@@ -93,11 +100,16 @@
       var text = (typeof saved.text === 'string') ? saved.text : '';
       var lines = splitLines(text);
       var voiceLang = textLang(text, api.lang);   /* 読み上げの声の言語(文から決める) */
-      var idx = (typeof saved.idx === 'number' && saved.idx >= 0 && saved.idx < lines.length) ? saved.idx : 0;
+      /* 位置は readIdx({idx, len})に残す(len=文の長さ。別の文のときの古い位置は使わない)。無ければ read.idx(前の版のデータ) */
+      var idxSaved = api.load('readIdx', null);
+      var rawIdx = (idxSaved && typeof idxSaved === 'object' && idxSaved.len === text.length && typeof idxSaved.idx === 'number') ? idxSaved.idx : saved.idx;
+      var idx = (typeof rawIdx === 'number' && Math.floor(rawIdx) === rawIdx && rawIdx >= 0 && rawIdx < lines.length) ? rawIdx : 0;
       var reading = lines.length > 0 && saved.reading === true;   /* 読む表示か、貼り付け欄か */
       var speaking = false;
       var breakMin = Number(api.getExtra('breakMin', 0)) || 0;
       if(BREAK_MINS.indexOf(breakMin) < 0) breakMin = 0;
+      var rateIdx = Number(api.getExtra('speechRate', 1));
+      if(!(rateIdx === 0 || rateIdx === 1 || rateIdx === 2)) rateIdx = 1;
       var breakDue = 0;      /* 休憩の合図を出す時刻(ms)。0=止めている */
       var bandShown = false;
       var fromPaste = false; /* この描画で 貼り付け欄→「この文で よむ」で読む表示に来た(戻るボタンで貼り付け欄へもどる) */
@@ -105,9 +117,20 @@
       /* いま表示中か(隠れたら読み上げとタイマーを止める) */
       function visible(){ return !c.classList.contains('hidden'); }
 
+      /* 文・表示・位置をまとめて書く(文を貼った・かえた・戻るボタンのときだけ) */
       function persist(){
-        if(api.save('read', { text:text, idx:idx, reading:reading })) return true;
+        if(api.save('read', { text:text, idx:idx, reading:reading })){
+          if(!api.save('readIdx', { idx:idx, len:text.length })) api.remove('readIdx');   /* 位置が書けなければ古い位置を残さない(read.idx を使う) */
+          return true;
+        }
         api.toast(api.T('common.storageFull'));
+        return false;
+      }
+      /* 行を進めるたびに書くのは位置だけ(数千行の文でも軽い・容量いっぱいでも文の保存を巻き込まない)。知らせは1画面に1回 */
+      var idxWarned = false;
+      function persistIdx(){
+        if(api.save('readIdx', { idx:idx, len:text.length })) return true;
+        if(!idxWarned){ idxWarned = true; api.toast(api.T('common.storageFull')); }
         return false;
       }
 
@@ -135,6 +158,7 @@
       field.appendChild(ta);
       paste.appendChild(field);
       paste.appendChild(api.el('p', 'hint', api.T('screen.yomu.pasteHint')));
+      paste.appendChild(api.el('p', 'hint', api.T('screen.yomu.lenHint')));   /* 貼れる長さのめやす(静かに一言) */
       var startRow = api.el('div', 'btn-row');
       var startBtn = api.el('button', 'btn primary wide');
       startBtn.type = 'button'; startBtn.id = 'ym-start';
@@ -180,6 +204,22 @@
       var box = api.el('div', 'ym-lines');
       box.id = 'ym-lines';
       view.appendChild(box);
+
+      /* 最後の行の読み上げが終わったとき(急かさず一言+はじめから読み直す入口) */
+      var endBox = api.el('div', 'ym-end hidden');
+      endBox.id = 'ym-end';
+      var endMsg = api.el('p', 'ym-end-msg');
+      endMsg.id = 'ym-end-msg';
+      endMsg.setAttribute('role', 'status');   /* 文字を入れたときに読み上げソフトへ知らせる */
+      endBox.appendChild(endMsg);
+      var endRow = api.el('div', 'btn-row');
+      var restartBtn = api.el('button', 'btn wide');
+      restartBtn.type = 'button'; restartBtn.id = 'ym-restart';
+      restartBtn.textContent = api.T('screen.yomu.restart');
+      api.Tap.bind(restartBtn, function(){ move(0); });
+      endRow.appendChild(restartBtn);
+      endBox.appendChild(endRow);
+      view.appendChild(endBox);
       view.appendChild(api.el('p', 'hint', api.T('screen.yomu.tapLineHint')));
 
       /* 操作: まえ / つぎ */
@@ -270,33 +310,86 @@
         for(var n = 0; n < chipEls.length; n++) chipEls[n].classList.toggle('on', BREAK_MINS[n] === breakMin);
       }
 
-      /* ===== 行の描画 ===== */
-      function drawLines(){
+      /* ===== よみあげの はやさ(ゆっくり/ふつう/はやい)=読み上げできる端末だけ ===== */
+      var rateChips = [];
+      if(api.canSpeak()){
+        var rt = api.el('div', 'ym-break ym-rate');
+        rt.appendChild(api.el('div', 'mk-label', api.T('screen.yomu.rateLabel')));
+        var rchips = api.el('div', 'chips');
+        var rnames = api.T('screen.yomu.rateOpts');
+        for(var r = 0; r < RATES.length; r++){
+          (function(k){
+            var rb = api.el('button', 'chip');
+            rb.type = 'button'; rb.id = 'ym-rate-' + k;
+            rb.textContent = rnames[k];
+            api.Tap.bind(rb, function(){
+              rateIdx = k;
+              if(api.setExtra('speechRate', k) === false) api.toast(api.T('common.storageFull'));   /* 保存できなければ この画面のあいだだけ効く */
+              refreshRate();
+            });
+            rateChips.push(rb);
+            rchips.appendChild(rb);
+          })(r);
+        }
+        rt.appendChild(rchips);
+        c.appendChild(rt);
+      }
+      function refreshRate(){
+        for(var n = 0; n < rateChips.length; n++) rateChips[n].classList.toggle('on', n === rateIdx);
+      }
+
+      /* ===== 行の描画 =====
+         行のボタンは文を貼ったとき(show)に1回だけ作る。送り(つぎ/まえ/行タップ/読み上げの自動送り)は setCur で
+         前の今の行と新しい今の行のしるし(class・色)だけを付け替える(全行を作り直さない・2026-11-11) */
+      var lineEls = [], curEl = null, dimCol = '';
+      function buildLines(){
         box.textContent = '';
         P.apply(box, prof);
-        var dim = P.dimColor(prof);
+        dimCol = P.dimColor(prof);
+        lineEls = []; curEl = null;
         for(var n = 0; n < lines.length; n++){
           (function(k){
-            var b = api.el('button', 'ym-line ' + (k === idx ? 'cur' : 'dim'));
+            var b = api.el('button', 'ym-line dim');
             b.type = 'button';
             b.setAttribute('dir', 'auto');   /* 1行ごとに文の向きに従う */
             b.textContent = lines[k];
-            if(k !== idx) b.style.color = dim;
+            b.style.color = dimCol;
             api.Tap.bind(b, function(){ move(k); }, { silent:true });
             box.appendChild(b);
+            lineEls.push(b);
           })(n);
         }
+        setCur();
+      }
+      function setCur(){
+        if(curEl){
+          curEl.classList.remove('cur'); curEl.classList.add('dim');
+          curEl.style.color = dimCol;
+          curEl.style.scrollMarginBottom = '';
+        }
+        curEl = lineEls[idx] || null;
+        if(curEl){ curEl.classList.remove('dim'); curEl.classList.add('cur'); curEl.style.color = ''; }
         pos.textContent = lines.length ? api.T('screen.yomu.lineOf').replace('{a}', String(idx + 1)).replace('{b}', String(lines.length)) : '';
         prevBtn.disabled = idx <= 0;
         nextBtn.disabled = idx >= lines.length - 1;
+        hideEnd();
+      }
+      function hideEnd(){ endBox.classList.add('hidden'); endMsg.textContent = ''; }
+      function showEnd(){
+        endMsg.textContent = api.T('screen.yomu.endMark');
+        endBox.classList.remove('hidden');
+        try{
+          endBox.style.scrollMarginBottom = (bar.offsetHeight || 0) + 'px';   /* 下に固定したボタンに隠れないように */
+          if(endBox.scrollIntoView) endBox.scrollIntoView({ block:'nearest' });
+        }catch(_){}
       }
       function move(k){
         if(k < 0 || k >= lines.length) return;
         var wasSpeaking = speaking;
         if(wasSpeaking) stopSpeaking();
         idx = k;
-        drawLines();
-        persist();
+        setCur();
+        persistIdx();
         if(wasSpeaking) speakFrom(idx);
         else showCur(true);
       }
@@ -325,17 +418,17 @@
         if(!api.canSpeak() || k < 0 || k >= lines.length) return;
         speaking = true;
         idx = k;
-        drawLines();
-        persist();
+        setCur();
+        persistIdx();
         showCur(false);
         refreshVoiceMark();
         var mySeq = ++speakSeq;
-        var ok = api.speak(lines[k], { lang:voiceLang, onend:function(){
+        var ok = api.speak(lines[k], { lang:voiceLang, rate:RATES[rateIdx], onend:function(){
           if(myGen !== gen){ speaking = false; return; }   /* 描き直された後の古い描画=続けない */
           if(!speaking || mySeq !== speakSeq) return;
           if(!visible()){ speaking = false; return; }
           if(idx + 1 < lines.length){ speakFrom(idx + 1); }
-          else { speaking = false; }
+          else { speaking = false; showEnd(); }   /* 最後の行を読み終えた=「ここまでです」と はじめから よむ */
         }, onerror:function(){
           /* 声が無い・エンジンの失敗など。止めた後や古い描画の失敗は知らせない */
           if(myGen !== gen || !speaking || mySeq !== speakSeq) return;
@@ -389,8 +482,8 @@
       function show(){
         paste.classList.toggle('hidden', reading);
         view.classList.toggle('hidden', !reading);
-        if(reading){ drawLines(); startBreak(); }
-        else { clearInterval(timer); timer = 0; breakDue = 0; hideBand(); ta.value = text; }
+        if(reading){ buildLines(); startBreak(); }
+        else { clearInterval(timer); timer = 0; breakDue = 0; hideBand(); hideEnd(); ta.value = text; }
       }
 
       /* ===== 戻るボタン(Play版・2026-09-29) =====
@@ -407,6 +500,7 @@
 
       clearInterval(timer); timer = 0;   /* 前回描画のタイマーを止めてから始める */
       refreshChips();
+      refreshRate();
       show();
       refreshVoiceMark();
     },

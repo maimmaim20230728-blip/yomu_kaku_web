@@ -20,16 +20,18 @@
      薄く見せる行(今の行以外)は約 3:1(yomu-17・2026-09-29。前は 1.75〜2.74:1 で前後の文が読みにくかった)。
      今の行との差は太字と枠(yomu.js の .ym-line.cur)で残す */
   var BGS = [
-    { bg:'#ffffff', ink:'#1a1a1a', dim:'#949494', line:'#dddddd' },
-    { bg:'#fbf6e9', ink:'#2a2620', dim:'#938c7c', line:'#e6dfcf' },
-    { bg:'#ececec', ink:'#1a1a1a', dim:'#878787', line:'#d4d4d4' },
-    { bg:'#111111', ink:'#f0f0f0', dim:'#7a7a7a', line:'#333333' }
+    { bg:'#ffffff', ink:'#1a1a1a', dim:'#949494', dimStrong:'#a8a8a8', line:'#dddddd' },
+    { bg:'#fbf6e9', ink:'#2a2620', dim:'#938c7c', dimStrong:'#aaa392', line:'#e6dfcf' },
+    { bg:'#ececec', ink:'#1a1a1a', dim:'#878787', dimStrong:'#9c9c9c', line:'#d4d4d4' },
+    { bg:'#111111', ink:'#f0f0f0', dim:'#7a7a7a', dimStrong:'#505050', line:'#333333' }
   ];
   var SIZES = ['1em', '1.25em', '1.5em'];          /* 文字の大きさ 3段階(せっていの「もじの大きさ」に重ねて掛かる) */
 
   /* 初期値 = ルビ付きPDFの型(行間2.0・生成り背景・左寄せ・ゴシック) */
-  var DEFAULT = { font:0, spacing:0, lh:1, bg:1, size:0 };
-  var RANGE = { font:FONTS.length, spacing:SPACINGS.length, lh:LHS.length, bg:BGS.length, size:SIZES.length };
+  /* dim = まわりの行の うすさ(2026-11-11): 0=つよい(約2.3:1)・1=ふつう(約3:1・これまでの形)・2=うすくしない(今の行と同じ文字色。今の行は太字と枠で分かる)。
+     保存済みのプロフィールに dim が無いときは 1(これまでと同じ見た目) */
+  var DEFAULT = { font:0, spacing:0, lh:1, bg:1, size:0, dim:1 };
+  var RANGE = { font:FONTS.length, spacing:SPACINGS.length, lh:LHS.length, bg:BGS.length, size:SIZES.length, dim:3 };
 
   /* 保存値は必ずここを通す(範囲外・壊れた値は初期値に) */
   function sanitize(p){
@@ -62,7 +64,11 @@
     return c;
   }
   /* 薄く見せる行の色(今読む行以外) */
-  function dimColor(p){ return BGS[sanitize(p).bg].dim; }
+  function dimColor(p){
+    p = sanitize(p);
+    var c = BGS[p.bg];
+    return p.dim === 0 ? c.dimStrong : (p.dim === 2 ? c.ink : c.dim);
+  }
   function lineColor(p){ return BGS[sanitize(p).bg].line; }
 
   window.YOMU_PROFILE = {

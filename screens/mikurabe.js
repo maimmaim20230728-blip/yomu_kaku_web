@@ -44,7 +44,8 @@
       var preview = api.el('div', 'mk-preview');
       preview.id = 'mk-preview';
       var lines = api.T('screen.mikurabe.sample');
-      for(var i = 0; i < lines.length; i++) preview.appendChild(api.el('p', null, lines[i]));
+      var sampleEls = [];
+      for(var i = 0; i < lines.length; i++){ var sp = api.el('p', null, lines[i]); sampleEls.push(sp); preview.appendChild(sp); }
       c.appendChild(preview);
 
       /* ---- 切り替え行(項目名 + チップ) ---- */
@@ -80,6 +81,7 @@
       makeRow('spacing', 'spacing', 'spacings');
       makeRow('lh', 'lh', 'lhs');
       makeRow('bg', 'bg', 'bgs');
+      makeRow('dim', 'dim', 'dims');   /* まわりの行の うすさ(2026-11-11・つよい/ふつう/うすくしない) */
 
       /* ---- ほぞん / もどす ---- */
       /* 選んだ形が保存済みと違う間だけ「まだ ほぞんしていません」(保存しないで離れると使われないため) */
@@ -114,6 +116,9 @@
       /* 見本とチップの選択状態を今の下書きに合わせる */
       function refresh(){
         P.apply(preview, draft);
+        /* 見本の2行目からは「まわりの行」の色で見せる(よむ画面の薄い行と同じ。1行目は今の行のつもり) */
+        var dc = P.dimColor(draft);
+        for(var q = 0; q < sampleEls.length; q++) sampleEls[q].style.color = (q === 0) ? '' : dc;
         for(var k in chipRefs){
           for(var n = 0; n < chipRefs[k].length; n++) chipRefs[k][n].classList.toggle('on', draft[k] === n);
         }
